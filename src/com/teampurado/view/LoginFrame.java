@@ -156,6 +156,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     StudentFrame sf = new StudentFrame();
                     sf.setVisible(true);
                 } this.dispose();
+                //
             }
             
             
