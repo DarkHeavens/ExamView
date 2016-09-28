@@ -15,7 +15,7 @@ public class DBHelper {
     private Statement stmt;
     private PreparedStatement prestmt;
     
-    //table elements
+    //tables
     private String TEACHER = "teacher",
             SUBJECT = "subject",
             SUBJECT_TEACHER = "subject_teacher",
@@ -30,31 +30,36 @@ public class DBHelper {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/exam","root","");
-            
+
             String createtable = "create table if not exists "+TEACHER+
-                    "(id char(10) not null, "+
-                    " name varchar(50), "+
-                    " primary key(id))";
+                    " (id char(10) not null, "+
+                    "name varchar(50), "+
+                    "password varchar(30), "+
+                    "primary key(id))";
             stmt = conn.createStatement();
             stmt.execute(createtable);
-            
+            //subject table
             createtable = "create table if not exists "+SUBJECT+
-                    "(id varchar(20) not null, "+
-                    " name varchar(50), "+
-                    " primary key(id))";
-            //stmt = conn.createStatement();
+                    " (id varchar(20) not null, "+
+                    "name varchar(50), "+
+                    "primary key(id))";
+            //subject_teacher table
             stmt.execute(createtable);
-            createtable = "create table if not exists "+SUBJECT+
-                    "(id varchar(20) not null, "+
-                    " name varchar(50), "+
-                    " primary key(id))";
-            
+            createtable = "create table if not exists "+SUBJECT_TEACHER+
+                    " (teacherID varchar(20) not null, "+
+                    "subjectID, "+
+                    "name varchar(50), "+
+                    "primary key(id))";
+            //
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public Connection getConn() {
+        return conn;
+    }
     
 }
