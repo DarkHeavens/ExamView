@@ -29,28 +29,50 @@ public class DBHelper {
     public DBHelper(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/exam","root","");
-
-            String createtable = "create table if not exists "+TEACHER+
-                    " (id char(10) not null, "+
-                    "name varchar(50), "+
-                    "password varchar(30), "+
-                    "primary key(id))";
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/examView","root","");
+            
+            String createTable = "create table if not exists "+TEACHER+
+                    " (id char(10) not null,"+
+                    " name varchar(50),"+
+                    " password varchar(126),"+
+                    " primary key(id))";
             stmt = conn.createStatement();
-            stmt.execute(createtable);
-            //subject table
-            createtable = "create table if not exists "+SUBJECT+
-                    " (id varchar(20) not null, "+
-                    "name varchar(50), "+
-                    "primary key(id))";
-            //subject_teacher table
-            stmt.execute(createtable);
-            createtable = "create table if not exists "+SUBJECT_TEACHER+
-                    " (teacherID varchar(20) not null, "+
-                    "subjectID, "+
-                    "name varchar(50), "+
-                    "primary key(id))";
-            //
+            stmt.execute(createTable);
+            
+            createTable = "create table if not exists "+SUBJECT+
+                    " (id varchar(20) not null,"+
+                    " name varchar(50),"+
+                    " passord varchar(126),"+
+                    " primary key(id))";
+            stmt = conn.createStatement();
+            stmt.execute(createTable);
+            
+            createTable = "create table if not exists "+SUBJECT_TEACHER+
+                    " (teacherID char(10) not null,"+
+                    " subjectID varchar(20) not null"+
+                    " day varchar(8), "+
+                    " time varchar(60)"+
+                    " primary key(teacherID),"+
+                    " primary key(subjectID),"+
+                    " foreign key(id) references examview.teacher(id),"+
+                    " foreign key(id) references examview.subject(id))";
+            stmt = conn.createStatement();
+            stmt.execute(createTable);
+            
+            createTable = "create table if not exists"+EXAM+
+                    " (examID tinyint not null"+
+                    " teacherID char(10)"+
+                    " subjectID varchar(10)"+
+                    " numOfItems smallint"+
+                    " timeLimit char(8)"+
+                    " password varchar(126)"+
+                    " primary key(examID),"+
+                    " foreign key(examID) references examview.exam(examID),"+
+                    " foreign key(id) references examview.teacher(id),"+
+                    " foreign key(id) references examview.subject(id))";
+            stmt = conn.createStatement();
+            stmt.execute(createTable);
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
