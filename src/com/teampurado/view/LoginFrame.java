@@ -142,21 +142,35 @@ public class LoginFrame extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         DBHelper db = new DBHelper();
         Connection conn = db.getConn();
+        String id = "";
+        String name = "";
+        String pass = "";
+        
+        
+        
         try {
+            sql = "select * from teacher where binary id = '"+tfUser.getText()+"' and binary password = '"+pfPass.getText()+"'";
             stmt = conn.createStatement();
-            sql = "select name from teacher where id = "+tfUser.getText()+" and password = "+pfPass.getPassword().toString();
-            if(stmt.executeQuery(sql)==null)
-                JOptionPane.showMessageDialog(this, "Empty", "", JOptionPane.ERROR_MESSAGE);
-            else{
-                Teacher t = new Teacher(tfUser.getText(),stmt.executeQuery(sql).toString(),pfPass.getPassword().toString());
+            rs = stmt.executeQuery(sql);
+            System.out.println(""+sql);
+            if(rs.next()){
+                id = rs.getString("id");
+                name = rs.getString("name");
+                pass = rs.getString("password");
+                
                 if(rbtnTeacher.isSelected()){
+                    Teacher t = new Teacher(id,name,pass);
                     TeacherFrame tf = new TeacherFrame();
                     tf.setVisible(true);
                 }else{
                     StudentFrame sf = new StudentFrame();
                     sf.setVisible(true);
                 } this.dispose();
-                //
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "ID or Passwsord is incorrect.", "Error", JOptionPane.ERROR_MESSAGE);
+                
             }
             
             
@@ -219,7 +233,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbtnTeacher;
     private javax.swing.JTextField tfUser;
     // End of variables declaration//GEN-END:variables
-    private Statement stmt;
+    private Statement stmt=null;
     private String sql;
+    private ResultSet rs=null;
     
 }
