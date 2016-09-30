@@ -1,11 +1,16 @@
 package com.teampurado.model.classes;
 
+import java.sql.Date;
+
 /**
  *
  * @author DarkHeavens
  */
 public class Attempt {
-
+    /*
+        Time startTime
+        Time endTime
+    */
     private String studentID;
     private String examID;
     private String startTime;
@@ -49,5 +54,6 @@ public class Attempt {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+    
     
 }

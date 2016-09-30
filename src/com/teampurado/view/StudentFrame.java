@@ -1,8 +1,14 @@
 package com.teampurado.view;
 
+import com.teampurado.model.classes.Student;
+import com.teampurado.model.database.DBHelper;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
- * @author DarkHeavens
+ * @author ProfessorSci
  */
 public class StudentFrame extends javax.swing.JFrame {
 
@@ -10,7 +16,17 @@ public class StudentFrame extends javax.swing.JFrame {
      * Creates new form StudentFrame
      */
     public StudentFrame() {
+        initComponents();    
+    }
+    public StudentFrame(String id, String name, String pass){
         initComponents();
+        DBHelper dbh = new DBHelper();
+        this.id = id;
+        this.name = name;
+        this.pass = pass;
+        
+        lbWelcome.setText("Welcome "+name);
+        
     }
 
     /**
@@ -22,20 +38,46 @@ public class StudentFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        lbWelcome = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lbWelcome.setFont(new java.awt.Font("GosmickSans", 0, 18)); // NOI18N
+        lbWelcome.setText("Welcome: ");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbWelcome)
+                .addContainerGap(577, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbWelcome)
+                .addContainerGap(265, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -73,6 +115,15 @@ public class StudentFrame extends javax.swing.JFrame {
         });
     }
 
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbWelcome;
     // End of variables declaration//GEN-END:variables
+    private Connection conn=null;
+    private Statement stmt;
+    private ResultSet rs;
+    private String id,name,pass;
 }

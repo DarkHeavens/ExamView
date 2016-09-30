@@ -2,7 +2,7 @@ package com.teampurado.view.student;
 
 /**
  *
- * @author DarkHeavens
+ * @author ProfessorSci
  */
 public class ReportFrame extends javax.swing.JFrame {
 

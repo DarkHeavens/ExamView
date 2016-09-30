@@ -6,6 +6,11 @@ package com.teampurado.model.classes;
  * @author DarkHeavens
  */
 public class Teacher {
+    /*
+    id char(10),
+    text 
+    primary key(id)
+    */
     private String id;
     private String name;
     private String pass;
