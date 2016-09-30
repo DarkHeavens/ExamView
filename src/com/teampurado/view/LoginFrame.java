@@ -1,5 +1,6 @@
 package com.teampurado.view;
 
+import com.teampurado.model.classes.Student;
 import com.teampurado.model.classes.Teacher;
 import com.teampurado.model.database.DBHelper;
 import java.sql.*;
@@ -163,6 +164,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     TeacherFrame tf = new TeacherFrame();
                     tf.setVisible(true);
                 }else{
+                    Student s = new Student(id,name,pass);
                     StudentFrame sf = new StudentFrame();
                     sf.setVisible(true);
                 } this.dispose();
