@@ -147,10 +147,13 @@ public class LoginFrame extends javax.swing.JFrame {
         String name = "";
         String pass = "";
         
-        
-        
         try {
-            sql = "select * from teacher where binary id = '"+tfUser.getText()+"' and binary password = '"+pfPass.getText()+"'";
+            if(rbtnTeacher.isSelected()){
+                sql = "select * from teacher where binary id = '"+tfUser.getText()+"' and binary password = '"+pfPass.getText()+"'";
+            } else{
+                sql = "select * from student where binary id = '"+tfUser.getText()+"' and binary password = '"+pfPass.getText()+"'";
+            }
+
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             System.out.println(""+sql);
@@ -159,13 +162,14 @@ public class LoginFrame extends javax.swing.JFrame {
                 name = rs.getString("name");
                 pass = rs.getString("password");
                 
+                System.out.println(""+id+" "+name+" "+pass);
                 if(rbtnTeacher.isSelected()){
                     Teacher t = new Teacher(id,name,pass);
                     TeacherFrame tf = new TeacherFrame();
                     tf.setVisible(true);
                 }else{
                     Student s = new Student(id,name,pass);
-                    StudentFrame sf = new StudentFrame();
+                    StudentFrame sf = new StudentFrame(id,name,pass);
                     sf.setVisible(true);
                 } this.dispose();
                 
