@@ -8,14 +8,14 @@ import java.sql.Time;
  */
 public class Exam {
     
-    private String examID;
+    private byte examID;
     private String teacherID;
     private String subjectID;
     private short numOfItems;
     private Time timeLimit;
     private String password;
 
-    public Exam(String examID, String teacherID, String subjectID, short numOfItems, Time timeLimit, String password) {
+    public Exam(byte examID, String teacherID, String subjectID, short numOfItems, Time timeLimit, String password) {
         this.examID = examID;
         this.teacherID = teacherID;
         this.subjectID = subjectID;
@@ -24,11 +24,11 @@ public class Exam {
         this.password = password;
     }
 
-    public String getExamID() {
+    public byte getExamID() {
         return examID;
     }
 
-    public void setExamID(String examID) {
+    public void setExamID(byte examID) {
         this.examID = examID;
     }
 

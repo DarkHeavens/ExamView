@@ -1,22 +1,17 @@
 package com.teampurado.model.classes;
 
-import java.sql.Date;
-
 /**
  *
  * @author DarkHeavens
  */
 public class Attempt {
-    /*
-        Time startTime
-        Time endTime
-    */
+
     private String studentID;
-    private String examID;
+    private byte examID;
     private String startTime;
     private String endTime;
 
-    public Attempt(String studentID, String examID, String startTime, String endTime) {
+    public Attempt(String studentID, byte examID, String startTime, String endTime) {
         this.studentID = studentID;
         this.examID = examID;
         this.startTime = startTime;
@@ -31,11 +26,11 @@ public class Attempt {
         this.studentID = studentID;
     }
 
-    public String getExamID() {
+    public byte getExamID() {
         return examID;
     }
 
-    public void setExamID(String examID) {
+    public void setExamID(byte examID) {
         this.examID = examID;
     }
 
@@ -54,6 +49,5 @@ public class Attempt {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
-    
     
 }

@@ -5,14 +5,15 @@ package com.teampurado.model.classes;
  * @author DarkHeavens
  */
 public class Student {
+    
     private String studentID;
     private String name;
-    private String pass;
+    private String password;
 
-    public Student(String studentID, String name, String pass) {
+    public Student(String studentID, String name, String password) {
         this.studentID = studentID;
         this.name = name;
-        this.pass = pass;
+        this.password = password;
     }
 
     public String getStudentID() {
@@ -31,15 +32,12 @@ public class Student {
         this.name = name;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    
-    
     
 }

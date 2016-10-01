@@ -9,15 +9,13 @@ public class Question {
     private short questionNo;
     private int qBankID;
     private byte numOfPoints;
-    private String type;
     private String answer;
     private String choices;
 
-    public Question(short questionNo, int qBankID, byte numOfPoints, String type, String answer, String choices) {
+    public Question(short questionNo, int qBankID, byte numOfPoints, String answer, String choices) {
         this.questionNo = questionNo;
         this.qBankID = qBankID;
         this.numOfPoints = numOfPoints;
-        this.type = type;
         this.answer = answer;
         this.choices = choices;
     }
@@ -44,14 +42,6 @@ public class Question {
 
     public void setNumOfPoints(byte numOfPoints) {
         this.numOfPoints = numOfPoints;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getAnswer() {

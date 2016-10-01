@@ -5,6 +5,7 @@ package com.teampurado.model.classes;
  * @author DarkHeavens
  */
 public class SubjectTeacher {
+    
     private String teacherID;
     private String subjectID;
     private String day;
@@ -48,6 +49,5 @@ public class SubjectTeacher {
     public void setTime(String time) {
         this.time = time;
     }
-    
     
 }

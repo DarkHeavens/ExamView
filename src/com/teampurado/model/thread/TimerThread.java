@@ -9,9 +9,9 @@ import javax.swing.JLabel;
  */
 public class TimerThread extends Thread {
     
-    private JLabel h;
-    private JLabel m;
-    private JLabel s;
+    private final JLabel h;
+    private final JLabel m;
+    private final JLabel s;
 
     public TimerThread(JLabel h, JLabel m, JLabel s) {
         this.h = h;
@@ -19,6 +19,7 @@ public class TimerThread extends Thread {
         this.s = s;
     }
 
+    @Override
     public void run() {
         byte hr = Byte.parseByte(h.getText()), 
                 min = Byte.parseByte(m.getText()), 

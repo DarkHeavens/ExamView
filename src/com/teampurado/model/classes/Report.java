@@ -5,6 +5,7 @@ package com.teampurado.model.classes;
  * @author ProfessorSci
  */
 public class Report {
+    
     private byte examID;
     private String studentID;
     private int totalScore;

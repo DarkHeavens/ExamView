@@ -6,20 +6,20 @@ package com.teampurado.model.classes;
  */
 public class QuestionBank {
     
-    private int qBankID;
+    private int QBankID;
     private String examID;
 
-    public QuestionBank(int qBankID, String examID) {
-        this.qBankID = qBankID;
+    public QuestionBank(int QBankID, String examID) {
+        this.QBankID = QBankID;
         this.examID = examID;
     }
 
-    public int getqBankID() {
-        return qBankID;
+    public int getQBankID() {
+        return QBankID;
     }
 
-    public void setqBankID(int qBankID) {
-        this.qBankID = qBankID;
+    public void setQBankID(int QBankID) {
+        this.QBankID = QBankID;
     }
 
     public String getExamID() {

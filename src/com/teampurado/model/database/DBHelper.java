@@ -1,5 +1,6 @@
 package com.teampurado.model.database;
 
+import com.teampurado.model.classes.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,14 +10,12 @@ import java.util.logging.Logger;
  * @author DarkHeavens & ProfessorSci
  */
 public class DBHelper {
-    //connection
+    
     private Connection conn;
-    //queries
     private Statement stmt;
     private PreparedStatement prestmt;
     
-    //table elements
-    private String TEACHER = "teacher",
+    private final String TEACHER = "teacher",
             SUBJECT = "subject",
             SUBJECT_TEACHER = "subject_teacher",
             STUDENT = "student",
@@ -26,120 +25,151 @@ public class DBHelper {
             QUESTION = "question",
             REPORT = "report";
     
-    public DBHelper(){
+    public DBHelper() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/examView","root","");
+            this.conn = DriverManager.getConnection("jdbc:mysql://localhost:1527/examview","root","");
+            stmt = conn.createStatement();
             
-            String createTable = "create table if not exists "+TEACHER+
+            execute("create table if not exists "+TEACHER+
                     " (id char(10) not null,"+
                     " name varchar(50),"+
                     " password varchar(126),"+
-                    " primary key(id))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " primary key(id))");
             
-            createTable = "create table if not exists "+SUBJECT+
+            execute("create table if not exists "+SUBJECT+
                     " (id varchar(20) not null,"+
                     " name varchar(50),"+
                     " passord varchar(126),"+
-                    " primary key(id))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " primary key(id))");
             
-            createTable = "create table if not exists "+SUBJECT_TEACHER+
+            execute("create table if not exists "+SUBJECT_TEACHER+
                     " (teacherID char(10),"+
                     " subjectID varchar(20),"+
                     " day varchar(8),"+
                     " time varchar(60),"+
                     " primary key(teacherID,subjectID),"+
-                    " foreign key(teacherID) references examView.teacher(id),"+
-                    " foreign key(subjectID) references examView.subject(id))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " foreign key(teacherID) references examview.teacher(id),"+
+                    " foreign key(subjectID) references examview.subject(id))");
             
-            createTable = "create table if not exists "+EXAM+
+            execute("create table if not exists "+EXAM+
                     " (examID tinyint not null auto_increment,"+
                     " teacherID char(10),"+
-                    " subjectID varchar(10),"+
+                    " subjectID varchar(20),"+
                     " numOfItems smallint,"+
                     " timeLimit char(8),"+
                     " password varchar(126),"+
                     " primary key(examID),"+
-                    " foreign key(teacherID) references examView.teacher(id),"+
-                    " foreign key(subjectID) references examView.subject(id))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " foreign key(teacherID) references examview.teacher(id),"+
+                    " foreign key(subjectID) references examview.subject(id))");
             
-            createTable = "create table if not exists "+QUESTION_BANK+
-                    " (qBankID tinyint not null,"+
+            execute("create table if not exists "+QUESTION_BANK+
+                    " (QBankID int not null,"+
                     " examID tinyint,"+
-                    " primary key(qBankID),"+
-                    " foreign key(examID) references examView.exam(examID))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " primary key(QBankID),"+
+                    " foreign key(examID) references examview.exam(examID))");
             
-            createTable = "create table if not exists "+QUESTION+
+            execute("create table if not exists "+QUESTION+
                     " (questionNo smallint not null auto_increment,"+
-                    " qBankID tinyint,"+
+                    " QBankID int,"+
                     " numOfPoints tinyint,"+
                     " answer text,"+
                     " choices text,"+
-                    " password varchar(126),"+
                     " primary key(questionNo),"+
-                    " foreign key(qBankID) references examView.question_bank(qBankID))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " foreign key(QBankID) references examview.question_bank(QBankID))");
             
-            createTable = "create table if not exists "+STUDENT+
+            execute("create table if not exists "+STUDENT+
                     " (id char(10) not null,"+
                     " name varchar(50),"+
                     " passord varchar(126),"+
-                    " primary key(id))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " primary key(id))");
             
-            createTable = "create table if not exists "+ATTEMPT+
-                    " (examID tinyint not null,"+
-                    " studentID char(10),"+
+            execute("create table if not exists "+ATTEMPT+
+                    " (studentID char(10) not null,"+
+                    " examID tinyint,"+
                     " startTime char(8),"+
                     " endTime char(8),"+
-                    " primary key(examID,studentID),"+
-                    " foreign key(examID) references examView.exam(examID),"+
-                    " foreign key(studentID) references examView.student(id))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " primary key(studentID,examID),"+
+                    " foreign key(studentID) references examView.student(id),"+
+                    " foreign key(examID) references examView.exam(examID))");
             
-            createTable = "create table if not exists "+REPORT+
+            execute("create table if not exists "+REPORT+
                     " (examID tinyint not null,"+
                     " studentID char(10),"+
                     " totalScore int,"+
                     " primary key(examID),"+
                     " foreign key(examID) references examView.exam(examID),"+
-                    " foreign key(studentID) references examView.student(id))";
-            stmt = conn.createStatement();
-            stmt.execute(createTable);
+                    " foreign key(studentID) references examView.student(id))");    
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
-
-    public Connection getConn() {
-        return conn;
+    
+    public void add(Attempt obj) {
+        executeQuery("inser into "+ATTEMPT+" values ("+
+                obj.getStudentID()+","+
+                obj.getExamID()+","+
+                obj.getStartTime()+","+
+                obj.getEndTime()+")");
     }
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
+    
+    public void add(Exam obj) {
+        executeQuery("inser into "+EXAM+" values ("+
+                obj.getExamID()+","+
+                obj.getTeacherID()+","+
+                obj.getSubjectID()+","+
+                obj.getNumOfItems()+","+
+                obj.getTimeLimit()+","+
+                obj.getPassword()+")");
     }
-
-    public Statement getStmt() {
-        return stmt;
+    
+    public void add(Question obj) {
+        executeQuery("inser into "+QUESTION+" values ("+
+                obj.getQuestionNo()+","+
+                obj.getqBankID()+","+
+                obj.getNumOfPoints()+","+
+                obj.getAnswer()+","+
+                obj.getChoices()+")");
     }
-
-    public void setStmt(Statement stmt) {
-        this.stmt = stmt;
+    
+    public void add(QuestionBank obj) {
+        executeQuery("inser into "+QUESTION_BANK+" values ("+
+                obj.getQBankID()+","+
+                obj.getExamID()+")");
+    }
+    
+    public void add(Report obj) {
+        executeQuery("inser into "+REPORT+" values ("+
+                obj.getExamID()+","+
+                obj.getStudentID()+","+
+                obj.getTotalScore()+")");
+    }
+    
+    public void add(Subject obj) {
+        executeQuery("inser into "+SUBJECT+" values ("+
+                obj.getId()+","+
+                obj.getName()+")");
+    }
+    
+    public final boolean execute(String sql) {
+        try {
+            return stmt.execute(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public ResultSet executeQuery(String sql) {
+        try {
+            return stmt.executeQuery(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

@@ -1,24 +1,19 @@
 package com.teampurado.model.classes;
 
-
 /**
  *
  * @author DarkHeavens
  */
 public class Teacher {
-    /*
-    id char(10),
-    text 
-    primary key(id)
-    */
+    
     private String id;
     private String name;
-    private String pass;
+    private String password;
 
-    public Teacher(String id, String name, String pass) {
+    public Teacher(String id, String name, String password) {
         this.id = id;
         this.name = name;
-        this.pass = pass;
+        this.password = password;
     }
 
     public String getId() {
@@ -38,14 +33,11 @@ public class Teacher {
     }
 
     public String getPass() {
-        return pass;
+        return password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPass(String password) {
+        this.password = password;
     }
-    
-    
-    
-    
+
 }

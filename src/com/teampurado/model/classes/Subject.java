@@ -29,5 +29,4 @@ public class Subject {
         this.name = name;
     }
     
-    
 }
