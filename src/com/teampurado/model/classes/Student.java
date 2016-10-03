@@ -6,22 +6,22 @@ package com.teampurado.model.classes;
  */
 public class Student {
     
-    private String studentID;
+    private String id;
     private String name;
     private String password;
 
-    public Student(String studentID, String name, String password) {
-        this.studentID = studentID;
+    public Student(String id, String name, String password) {
+        this.id = id;
         this.name = name;
         this.password = password;
     }
 
-    public String getStudentID() {
-        return studentID;
+    public String getId() {
+        return id;
     }
 
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

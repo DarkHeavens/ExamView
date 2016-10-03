@@ -7,13 +7,13 @@ package com.teampurado.model.classes;
 public class SubjectTeacher {
     
     private String teacherID;
-    private String subjectID;
+    private String subjectCode;
     private String day;
     private String time;
 
-    public SubjectTeacher(String teacherID, String subjectID, String day, String time) {
+    public SubjectTeacher(String teacherID, String subjectCode, String day, String time) {
         this.teacherID = teacherID;
-        this.subjectID = subjectID;
+        this.subjectCode = subjectCode;
         this.day = day;
         this.time = time;
     }
@@ -26,12 +26,12 @@ public class SubjectTeacher {
         this.teacherID = teacherID;
     }
 
-    public String getSubjectID() {
-        return subjectID;
+    public String getSubjectCode() {
+        return subjectCode;
     }
 
-    public void setSubjectID(String subjectID) {
-        this.subjectID = subjectID;
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
     public String getDay() {

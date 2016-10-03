@@ -15,7 +15,7 @@ public class DBHelper {
     private Statement stmt;
     private PreparedStatement prestmt;
     
-    private final String TEACHER = "teacher",
+    public final static String TEACHER = "teacher",
             SUBJECT = "subject",
             SUBJECT_TEACHER = "subject_teacher",
             STUDENT = "student",
@@ -25,10 +25,12 @@ public class DBHelper {
             QUESTION = "question",
             REPORT = "report";
     
+    private ResultSet rs;
+    
     public DBHelper() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            this.conn = DriverManager.getConnection("jdbc:mysql://localhost:1527/examview","root","");
+            this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/examview","root","");
             stmt = conn.createStatement();
             
             execute("create table if not exists "+TEACHER+
@@ -38,30 +40,29 @@ public class DBHelper {
                     " primary key(id))");
             
             execute("create table if not exists "+SUBJECT+
-                    " (id varchar(20) not null,"+
-                    " name varchar(50),"+
-                    " passord varchar(126),"+
+                    " (code varchar(20) not null,"+
+                    " description varchar(50),"+
                     " primary key(id))");
             
             execute("create table if not exists "+SUBJECT_TEACHER+
                     " (teacherID char(10),"+
-                    " subjectID varchar(20),"+
+                    " subjectCode varchar(20),"+
                     " day varchar(8),"+
                     " time varchar(60),"+
                     " primary key(teacherID,subjectID),"+
                     " foreign key(teacherID) references examview.teacher(id),"+
-                    " foreign key(subjectID) references examview.subject(id))");
+                    " foreign key(subjectCode) references examview.subject(code))");
             
             execute("create table if not exists "+EXAM+
                     " (examID tinyint not null auto_increment,"+
                     " teacherID char(10),"+
-                    " subjectID varchar(20),"+
+                    " subjectCode varchar(20),"+
                     " numOfItems smallint,"+
                     " timeLimit char(8),"+
                     " password varchar(126),"+
                     " primary key(examID),"+
                     " foreign key(teacherID) references examview.teacher(id),"+
-                    " foreign key(subjectID) references examview.subject(id))");
+                    " foreign key(subjectCode) references examview.subject(code))");
             
             execute("create table if not exists "+QUESTION_BANK+
                     " (QBankID int not null,"+
@@ -73,6 +74,7 @@ public class DBHelper {
                     " (questionNo smallint not null auto_increment,"+
                     " QBankID int,"+
                     " numOfPoints tinyint,"+
+                    " ask text"+
                     " answer text,"+
                     " choices text,"+
                     " primary key(questionNo),"+
@@ -81,7 +83,7 @@ public class DBHelper {
             execute("create table if not exists "+STUDENT+
                     " (id char(10) not null,"+
                     " name varchar(50),"+
-                    " passord varchar(126),"+
+                    " password varchar(126),"+
                     " primary key(id))");
             
             execute("create table if not exists "+ATTEMPT+
@@ -109,7 +111,7 @@ public class DBHelper {
     }
     
     public void add(Attempt obj) {
-        executeQuery("inser into "+ATTEMPT+" values ("+
+        executeQuery("insert into "+ATTEMPT+" values ("+
                 obj.getStudentID()+","+
                 obj.getExamID()+","+
                 obj.getStartTime()+","+
@@ -117,7 +119,7 @@ public class DBHelper {
     }
     
     public void add(Exam obj) {
-        executeQuery("inser into "+EXAM+" values ("+
+        execute("insert into "+EXAM+" values ("+
                 obj.getExamID()+","+
                 obj.getTeacherID()+","+
                 obj.getSubjectID()+","+
@@ -127,7 +129,7 @@ public class DBHelper {
     }
     
     public void add(Question obj) {
-        executeQuery("inser into "+QUESTION+" values ("+
+        execute("insert into "+QUESTION+" values ("+
                 obj.getQuestionNo()+","+
                 obj.getqBankID()+","+
                 obj.getNumOfPoints()+","+
@@ -136,22 +138,30 @@ public class DBHelper {
     }
     
     public void add(QuestionBank obj) {
-        executeQuery("inser into "+QUESTION_BANK+" values ("+
+        execute("insert into "+QUESTION_BANK+" values ("+
                 obj.getQBankID()+","+
                 obj.getExamID()+")");
     }
     
     public void add(Report obj) {
-        executeQuery("inser into "+REPORT+" values ("+
+        execute("insert into "+REPORT+" values ("+
                 obj.getExamID()+","+
                 obj.getStudentID()+","+
                 obj.getTotalScore()+")");
     }
     
     public void add(Subject obj) {
-        executeQuery("inser into "+SUBJECT+" values ("+
-                obj.getId()+","+
-                obj.getName()+")");
+        execute("insert into "+SUBJECT+" values ("+
+                obj.getCode()+","+
+                obj.getDescription()+")");
+    }
+    
+    public void add(SubjectTeacher obj) {
+        execute("insert into "+SUBJECT_TEACHER+" values ("+
+                obj.getTeacherID()+","+
+                obj.getSubjectCode()+","+
+                obj.getDay()+","+
+                obj.getTime()+")");
     }
     
     public final boolean execute(String sql) {
@@ -171,5 +181,21 @@ public class DBHelper {
         }
         return null;
     }
+    
+    public void close() {
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public ResultSet getRs() {
+        return rs;
+    }
 
+    public void setRs(ResultSet rs) {
+        this.rs = rs;
+    }
+    
 }

@@ -24,17 +24,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pnlQuestionBank" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlAttemptView" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pnlQuestionBank" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlAttemptView" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="pnlQuestionBank">
+    <Container class="javax.swing.JPanel" name="pnlAttemptView">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -42,21 +42,10 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lbExamDscrptn" alignment="0" max="32767" attributes="0"/>
-                      <Component id="sclQBank" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lbExamDscrptn" max="32767" attributes="0"/>
+                      <Component id="sclReport" alignment="0" pref="676" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="lbQuestionNo" min="-2" pref="82" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="lbHPS" min="-2" pref="106" max="-2" attributes="0"/>
-                          <EmptySpace pref="219" max="32767" attributes="0"/>
-                          <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnCommit" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnCopyTo" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="lbTimeLimit" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbSubject" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -78,31 +67,23 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="lbAvatar" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lbUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnLogout" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                          <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnBack" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lbTimeLimit" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbSubject" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lbExamDscrptn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="sclQBank" min="-2" pref="344" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnCopyTo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnCommit" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lbHPS" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="lbQuestionNo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="sclReport" min="-2" pref="417" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -127,67 +108,54 @@
             <Property name="text" type="java.lang.String" value="Logout"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbTimeLimit">
+        <Component class="javax.swing.JLabel" name="lbSubject">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Time Limit"/>
+            <Property name="text" type="java.lang.String" value="Subject"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnBack">
           <Properties>
             <Property name="text" type="java.lang.String" value="Back"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbExamDscrptn">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="18" style="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Exam Description"/>
-          </Properties>
-        </Component>
-        <Container class="javax.swing.JScrollPane" name="sclQBank">
+        <Container class="javax.swing.JScrollPane" name="sclReport">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tblQBank">
+            <Component class="javax.swing.JTable" name="tblReport">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
-                    <Column editable="true" title="Question No" type="java.lang.Object"/>
-                    <Column editable="true" title="Number of Points" type="java.lang.Object"/>
-                    <Column editable="true" title="Answer" type="java.lang.Object"/>
-                    <Column editable="true" title="Choices (choice1, choice 2, ..., choice n)" type="java.lang.Object"/>
+                  <Table columnCount="3" rowCount="0">
+                    <Column editable="false" title="Student" type="java.lang.Object"/>
+                    <Column editable="false" title="Total Score" type="java.lang.Object"/>
+                    <Column editable="false" title="Percentage" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                  <TableColumnModel selectionModel="3">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="95" resizable="false">
+                  <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="130" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="200" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="300" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
                   </TableColumnModel>
                 </Property>
-                <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
@@ -195,31 +163,13 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="lbQuestionNo">
+        <Component class="javax.swing.JLabel" name="lbExamDscrptn">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="18" style="0"/>
+            </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="# Q/# Items"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnRefresh">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Refresh"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnCommit">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Commit"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnCopyTo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Copy To..."/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lbHPS">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="HPS"/>
+            <Property name="text" type="java.lang.String" value="Exam Description"/>
           </Properties>
         </Component>
       </SubComponents>
