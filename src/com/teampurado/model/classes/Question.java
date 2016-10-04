@@ -7,15 +7,15 @@ package com.teampurado.model.classes;
 public class Question {
     
     private short questionNo;
-    private int qBankID;
+    private int QBankID;
     private byte numOfPoints;
     private String ask;
     private String answer;
     private String choices;
 
-    public Question(short questionNo, int qBankID, byte numOfPoints, String ask, String answer, String choices) {
+    public Question(short questionNo, int QBankID, byte numOfPoints, String ask, String answer, String choices) {
         this.questionNo = questionNo;
-        this.qBankID = qBankID;
+        this.QBankID = QBankID;
         this.numOfPoints = numOfPoints;
         this.ask = ask;
         this.answer = answer;
@@ -30,12 +30,12 @@ public class Question {
         this.questionNo = questionNo;
     }
 
-    public int getqBankID() {
-        return qBankID;
+    public int getQBankID() {
+        return QBankID;
     }
 
-    public void setqBankID(int qBankID) {
-        this.qBankID = qBankID;
+    public void setqBankID(int QBankID) {
+        this.QBankID = QBankID;
     }
 
     public byte getNumOfPoints() {

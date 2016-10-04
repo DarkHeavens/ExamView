@@ -8,14 +8,12 @@ public class Attempt {
 
     private String studentID;
     private byte examID;
-    private String startTime;
-    private String endTime;
+    private boolean status;
 
-    public Attempt(String studentID, byte examID, String startTime, String endTime) {
+    public Attempt(String studentID, byte examID, boolean status) {
         this.studentID = studentID;
         this.examID = examID;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.status = status;
     }
 
     public String getStudentID() {
@@ -34,20 +32,12 @@ public class Attempt {
         this.examID = examID;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }

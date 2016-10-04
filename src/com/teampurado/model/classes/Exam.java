@@ -1,7 +1,5 @@
 package com.teampurado.model.classes;
 
-import java.sql.Time;
-
 /**
  *
  * @author ProfessorSci
@@ -10,18 +8,20 @@ public class Exam {
     
     private byte examID;
     private String teacherID;
-    private String subjectID;
+    private String subjectCode;
     private short numOfItems;
-    private Time timeLimit;
+    private String timeLimit;
     private String password;
+    private boolean status;
 
-    public Exam(byte examID, String teacherID, String subjectID, short numOfItems, Time timeLimit, String password) {
+    public Exam(byte examID, String teacherID, String subjectCode, short numOfItems, String timeLimit, String password, boolean status) {
         this.examID = examID;
         this.teacherID = teacherID;
-        this.subjectID = subjectID;
+        this.subjectCode = subjectCode;
         this.numOfItems = numOfItems;
         this.timeLimit = timeLimit;
         this.password = password;
+        this.status = status;
     }
 
     public byte getExamID() {
@@ -40,12 +40,12 @@ public class Exam {
         this.teacherID = teacherID;
     }
 
-    public String getSubjectID() {
-        return subjectID;
+    public String getSubjectCode() {
+        return subjectCode;
     }
 
-    public void setSubjectID(String subjectID) {
-        this.subjectID = subjectID;
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
     public short getNumOfItems() {
@@ -56,11 +56,11 @@ public class Exam {
         this.numOfItems = numOfItems;
     }
 
-    public Time getTimeLimit() {
+    public String getTimeLimit() {
         return timeLimit;
     }
 
-    public void setTimeLimit(Time timeLimit) {
+    public void setTimeLimit(String timeLimit) {
         this.timeLimit = timeLimit;
     }
 
@@ -70,6 +70,14 @@ public class Exam {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }
