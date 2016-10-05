@@ -39,11 +39,9 @@ public class TimerThread extends Thread {
                     sec = 59;
                     if(min > -1) {
                         min--;
-                    } else {
+                    } else if (hr > 0){
                         min = 59;
-                        if(hr > 0) {
-                            hr--;
-                        }
+                        hr--;
                     }
                 }
             } while(h.getText().equals("0") && m.getText().equals("0") && s.getText().equals("0"));

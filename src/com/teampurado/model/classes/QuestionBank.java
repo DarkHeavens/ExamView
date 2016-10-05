@@ -7,15 +7,18 @@ package com.teampurado.model.classes;
 public class QuestionBank {
     
     private int QBankID;
-    private String examID;
+    private byte examID;
     private String teacherID;
-    private String description;
 
-    public QuestionBank(int QBankID, String examID, String teacherID, String description) {
+    public QuestionBank(int QBankID, byte examID, String teacherID) {
         this.QBankID = QBankID;
         this.examID = examID;
         this.teacherID = teacherID;
-        this.description = description;
+    }
+
+    public QuestionBank(byte examID, String teacherID) {
+        this.examID = examID;
+        this.teacherID = teacherID;
     }
 
     public int getQBankID() {
@@ -26,11 +29,11 @@ public class QuestionBank {
         this.QBankID = QBankID;
     }
 
-    public String getExamID() {
+    public byte getExamID() {
         return examID;
     }
 
-    public void setExamID(String examID) {
+    public void setExamID(byte examID) {
         this.examID = examID;
     }
 
@@ -40,14 +43,6 @@ public class QuestionBank {
 
     public void setTeacherID(String teacherID) {
         this.teacherID = teacherID;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
     
 }

@@ -1,8 +1,10 @@
 package com.teampurado.view;
 
 import com.teampurado.model.classes.Subject;
+import com.teampurado.model.classes.SubjectTeacher;
 import com.teampurado.model.classes.Teacher;
 import com.teampurado.model.database.DBHelper;
+import com.teampurado.view.teacher.ExamViewFrame;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -34,7 +36,7 @@ public class TeacherFrame extends javax.swing.JFrame {
             DefaultTableModel dtm = (DefaultTableModel) tblSubject.getModel();
             db.setRs(db.executeQuery("select * from "+DBHelper.SUBJECT+
                     " where code in (select distinct subjectCode from "+DBHelper.SUBJECT_TEACHER+
-                    " where teacherID = '"+tchr.getId()+"')"));
+                    " where teacherID = '"+tchr.getId()+"') order by code asc"));
             
             while(db.getRs().next()) {
                 Subject nth = new Subject(db.getRs().getString("code"),db.getRs().getString("description"));
@@ -50,9 +52,6 @@ public class TeacherFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlSubjectTeacher = new javax.swing.JPanel();
-        lbSubjectTeacher = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         pnlTeacher = new javax.swing.JPanel();
         lbAvatar = new javax.swing.JLabel();
         lbUsername = new javax.swing.JLabel();
@@ -60,40 +59,14 @@ public class TeacherFrame extends javax.swing.JFrame {
         lbWelcome = new javax.swing.JLabel();
         sclSubject = new javax.swing.JScrollPane();
         tblSubject = new javax.swing.JTable();
-        lbSubject = new javax.swing.JLabel();
-        tfSubject = new javax.swing.JTextField();
+        lbSubjCode = new javax.swing.JLabel();
+        tfSubjCode = new javax.swing.JTextField();
         lbDscrptn = new javax.swing.JLabel();
         tfDscrptn = new javax.swing.JTextField();
-        btnAdd = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        btnAddSubj = new javax.swing.JButton();
+        btnUpdSubj = new javax.swing.JButton();
+        btnDelSubj = new javax.swing.JButton();
         btnExamView = new javax.swing.JButton();
-
-        lbSubjectTeacher.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lbSubjectTeacher.setText("Subject");
-
-        jLabel1.setText("Schedule");
-
-        javax.swing.GroupLayout pnlSubjectTeacherLayout = new javax.swing.GroupLayout(pnlSubjectTeacher);
-        pnlSubjectTeacher.setLayout(pnlSubjectTeacherLayout);
-        pnlSubjectTeacherLayout.setHorizontalGroup(
-            pnlSubjectTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSubjectTeacherLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlSubjectTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbSubjectTeacher)
-                    .addComponent(jLabel1))
-                .addContainerGap(318, Short.MAX_VALUE))
-        );
-        pnlSubjectTeacherLayout.setVerticalGroup(
-            pnlSubjectTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSubjectTeacherLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbSubjectTeacher)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(128, Short.MAX_VALUE))
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ExamView");
@@ -138,39 +111,45 @@ public class TeacherFrame extends javax.swing.JFrame {
         sclSubject.setViewportView(tblSubject);
         if (tblSubject.getColumnModel().getColumnCount() > 0) {
             tblSubject.getColumnModel().getColumn(0).setPreferredWidth(1);
-            tblSubject.getColumnModel().getColumn(1).setPreferredWidth(250);
+            tblSubject.getColumnModel().getColumn(1).setPreferredWidth(225);
+            tblSubject.getColumnModel().getColumn(1).setHeaderValue("Description");
         }
 
-        lbSubject.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbSubject.setText("Subject:");
+        lbSubjCode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbSubjCode.setText("Subject Code:");
 
         lbDscrptn.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbDscrptn.setText("Description:");
 
-        btnAdd.setText("Add");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnAddSubj.setText("Add");
+        btnAddSubj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnAddSubjActionPerformed(evt);
             }
         });
 
-        btnUpdate.setText("Update");
-        btnUpdate.setEnabled(false);
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdSubj.setText("Update");
+        btnUpdSubj.setEnabled(false);
+        btnUpdSubj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnUpdSubjActionPerformed(evt);
             }
         });
 
-        btnDelete.setText("Delete");
-        btnDelete.setEnabled(false);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+        btnDelSubj.setText("Delete");
+        btnDelSubj.setEnabled(false);
+        btnDelSubj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
+                btnDelSubjActionPerformed(evt);
             }
         });
 
         btnExamView.setText("View Exam");
+        btnExamView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExamViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlTeacherLayout = new javax.swing.GroupLayout(pnlTeacher);
         pnlTeacher.setLayout(pnlTeacherLayout);
@@ -187,24 +166,24 @@ public class TeacherFrame extends javax.swing.JFrame {
                         .addComponent(btnLogout))
                     .addComponent(sclSubject, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTeacherLayout.createSequentialGroup()
-                        .addComponent(btnAdd)
+                        .addGroup(pnlTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lbSubjCode, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbDscrptn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnExamView))
+                        .addGroup(pnlTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfSubjCode)
+                            .addComponent(tfDscrptn)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTeacherLayout.createSequentialGroup()
                         .addComponent(lbWelcome)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTeacherLayout.createSequentialGroup()
-                        .addGroup(pnlTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lbSubject, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbDscrptn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnAddSubj)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfSubject)
-                            .addComponent(tfDscrptn))))
+                        .addComponent(btnUpdSubj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelSubj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExamView)))
                 .addContainerGap())
         );
         pnlTeacherLayout.setVerticalGroup(
@@ -224,19 +203,19 @@ public class TeacherFrame extends javax.swing.JFrame {
                 .addComponent(sclSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbSubject)
-                    .addComponent(tfSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbSubjCode)
+                    .addComponent(tfSubjCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDscrptn)
                     .addComponent(tfDscrptn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(pnlTeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnAdd)
-                    .addComponent(btnDelete)
+                    .addComponent(btnAddSubj)
+                    .addComponent(btnUpdSubj)
+                    .addComponent(btnDelSubj)
                     .addComponent(btnExamView))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -257,54 +236,85 @@ public class TeacherFrame extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         LoginFrame login = new LoginFrame();
         login.setVisible(true);
+        db.close();
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void tblSubjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSubjectMouseClicked
         if(!select) {
             Subject nth = list.get(tblSubject.getSelectedRow());
-            tfSubject.setText(nth.getCode());
+            tfSubjCode.setText(nth.getCode());
             tfDscrptn.setText(nth.getDescription());
-            btnAdd.setEnabled(false);
-            btnUpdate.setEnabled(true);
-            btnDelete.setEnabled(true);
+            btnAddSubj.setEnabled(false);
+            btnUpdSubj.setEnabled(true);
+            btnDelSubj.setEnabled(true);
             select = true;
         } else {
             clrSubjForm();
         }
     }//GEN-LAST:event_tblSubjectMouseClicked
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    private void btnAddSubjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSubjActionPerformed
         try {
-            if(!tfSubject.getText().isEmpty() && !tfDscrptn.getText().isEmpty()) {
+            if(tfSubjCode.getText().isEmpty() || tfDscrptn.getText().isEmpty()) {
                 throw new Exception();
             }
             
-            Subject x = new Subject(tfSubject.getText(),tfDscrptn.getText());
+            Subject nth = new Subject(tfSubjCode.getText(),tfDscrptn.getText());          
             DefaultTableModel dtm = (DefaultTableModel) tblSubject.getModel();
-            
-            list.add(x);
-            dtm.addRow(new Object[]{x.getCode(),x.getDescription()});
-            if(!db.execute("select code from "+DBHelper.SUBJECT+
-                    " where code = '"+x.getCode()+"'")) {
-                db.execute("insert into from "+DBHelper.SUBJECT+" values("+x.getCode()+","+x.getDescription()+")");
+            if(!db.executeQuery("select code from "+DBHelper.SUBJECT+
+                    " where code = '"+nth.getCode()+"'").first()) {
+                db.add(nth);
+                list.add(nth);
+            }
+            db.add(new SubjectTeacher(tchr.getId(),nth.getCode()));
+            dtm.addRow(new Object[]{nth.getCode(),nth.getDescription()});
+            clrSubjForm();
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(this,"Could not be added!","ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddSubjActionPerformed
+
+    private void btnUpdSubjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdSubjActionPerformed
+        try {
+            if(tfSubjCode.getText().isEmpty() || tfDscrptn.getText().isEmpty()) {
+                throw new Exception();
             }
             
-            db.execute("insert into from "+DBHelper.SUBJECT_TEACHER+" values("+")");
+            DefaultTableModel dtm = (DefaultTableModel) tblSubject.getModel();
+            Subject x = new Subject(tfSubjCode.getText(), tfDscrptn.getText());
+            db.execute("update "+DBHelper.SUBJECT+" set code = '"+tfSubjCode.getText()+"', description = '"+tfDscrptn.getText()+
+                    "' where code = '"+dtm.getValueAt(tblSubject.getSelectedRow(),0)+"'");
+            dtm.setValueAt(x.getCode(), tblSubject.getSelectedRow(), 0);
+            dtm.setValueAt(x.getDescription(), tblSubject.getSelectedRow(), 1);
+            list.set(tblSubject.getSelectedRow(), x);
             
             clrSubjForm();
         } catch(Exception ex) {
-            JOptionPane.showMessageDialog(this,"Invalid input!","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Could not be updated!","ERROR",JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnAddActionPerformed
+    }//GEN-LAST:event_btnUpdSubjActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    private void btnDelSubjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelSubjActionPerformed
+        try {
+            if(tfSubjCode.getText().isEmpty() || tfDscrptn.getText().isEmpty()) {
+                throw new Exception();
+            }
+            
+            DefaultTableModel dtm = (DefaultTableModel) tblSubject.getModel();
+            db.execute("delete from "+DBHelper.SUBJECT+" where code = '"+tfSubjCode.getText()+"'");
+            dtm.removeRow(tblSubject.getSelectedRow());
+            list.remove(tblSubject.getSelectedRow());
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(this,"Could not be deleted!","ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDelSubjActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    private void btnExamViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExamViewActionPerformed
+        ExamViewFrame exam = new ExamViewFrame(new Subject(tfSubjCode.getText(),tfDscrptn.getText()),tchr,this);
+        this.setVisible(false);
+        exam.setVisible(true);
+    }//GEN-LAST:event_btnExamViewActionPerformed
     
     /**
      * @param args the command line arguments
@@ -335,12 +345,12 @@ public class TeacherFrame extends javax.swing.JFrame {
     }
     
     public void clrSubjForm() {
-        tfSubject.setText("");
+        tfSubjCode.setText("");
         tfDscrptn.setText("");
         tblSubject.clearSelection();
-        btnAdd.setEnabled(true);
-        btnUpdate.setEnabled(false);
-        btnDelete.setEnabled(false);
+        btnAddSubj.setEnabled(true);
+        btnUpdSubj.setEnabled(false);
+        btnDelSubj.setEnabled(false);
         select = false;
     }
     
@@ -349,23 +359,20 @@ public class TeacherFrame extends javax.swing.JFrame {
     DBHelper db;
     boolean select;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnAddSubj;
+    private javax.swing.JButton btnDelSubj;
     private javax.swing.JButton btnExamView;
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnUpdSubj;
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbDscrptn;
-    private javax.swing.JLabel lbSubject;
-    private javax.swing.JLabel lbSubjectTeacher;
+    private javax.swing.JLabel lbSubjCode;
     private javax.swing.JLabel lbUsername;
     private javax.swing.JLabel lbWelcome;
-    private javax.swing.JPanel pnlSubjectTeacher;
     private javax.swing.JPanel pnlTeacher;
     private javax.swing.JScrollPane sclSubject;
     private javax.swing.JTable tblSubject;
     private javax.swing.JTextField tfDscrptn;
-    private javax.swing.JTextField tfSubject;
+    private javax.swing.JTextField tfSubjCode;
     // End of variables declaration//GEN-END:variables
 }

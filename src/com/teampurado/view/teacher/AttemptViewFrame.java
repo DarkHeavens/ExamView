@@ -1,5 +1,15 @@
 package com.teampurado.view.teacher;
 
+import com.teampurado.model.classes.Subject;
+import com.teampurado.model.classes.Teacher;
+import com.teampurado.model.classes.Report;
+import com.teampurado.model.database.DBHelper;
+import com.teampurado.view.LoginFrame;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ProfessorSci
@@ -8,6 +18,27 @@ public class AttemptViewFrame extends javax.swing.JFrame {
 
     public AttemptViewFrame() {
         initComponents();
+    }
+    
+    public AttemptViewFrame(Subject subj, Teacher tchr, byte examID, ExamViewFrame evf) {
+        initComponents();
+        db = new DBHelper();
+        this.subj = subj;
+        this.tchr = tchr;
+        this.evf = evf;
+        lbUsername.setText(tchr.getId());
+        lbSubject.setText(subj.getCode());
+        
+        db.setRs(db.executeQuery("select * from "+DBHelper.REPORT+" inner join "+DBHelper.STUDENT+" on studentID = id where examID = "+examID));
+        try {
+            DefaultTableModel dtm = (DefaultTableModel) tblReport.getModel();
+            while(db.getRs().next()){
+                Report nth = new Report(db.getRs().getByte("examID"), db.getRs().getString("studentID"), db.getRs().getInt("myScore"), db.getRs().getInt("totalScore"));
+                dtm.addRow(new Object[]{db.getRs().getString("name"), nth.getMyScore(), String.format(".2f",(nth.getMyScore()/nth.getTotalScore()))});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AttemptViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -33,6 +64,11 @@ public class AttemptViewFrame extends javax.swing.JFrame {
         lbUsername.setText("username");
 
         btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         lbSubject.setText("Subject");
 
@@ -129,8 +165,16 @@ public class AttemptViewFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
+        evf.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        LoginFrame login = new LoginFrame();
+        login.setVisible(true);
+        db.close();
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,7 +203,11 @@ public class AttemptViewFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    Subject subj;
+    Teacher tchr;
+    DBHelper db;
+    ExamViewFrame evf;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnLogout;

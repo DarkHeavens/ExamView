@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="btnGrpStatus">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="ExamView"/>
@@ -29,7 +33,10 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pnlExam" min="-2" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Component id="pnlExam" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -50,7 +57,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="sclSubject" alignment="1" max="32767" attributes="0"/>
+                      <Component id="sclExam" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="lbSubject" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
@@ -58,7 +65,7 @@
                       </Group>
                       <Component id="pnlExam_QBank" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -68,7 +75,7 @@
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="lbAvatar" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnLogout" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbUsername" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -84,7 +91,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lbExam" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="sclSubject" min="-2" pref="184" max="-2" attributes="0"/>
+                  <Component id="sclExam" min="-2" pref="184" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="pnlExam_QBank" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -123,6 +130,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Back"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbExam">
           <Properties>
@@ -133,59 +143,47 @@
             <Property name="text" type="java.lang.String" value="Exam"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="sclSubject">
+        <Container class="javax.swing.JScrollPane" name="sclExam">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tblSubject">
+            <Component class="javax.swing.JTable" name="tblExam">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="0">
-                    <Column editable="false" title="Date Created" type="java.lang.Object"/>
-                    <Column editable="false" title="Schedule" type="java.lang.Object"/>
+                  <Table columnCount="5" rowCount="0">
                     <Column editable="false" title="Description" type="java.lang.Object"/>
                     <Column editable="false" title="Number of Items" type="java.lang.Object"/>
-                    <Column editable="true" title="Time Limit" type="java.lang.Object"/>
-                    <Column editable="true" title="Password" type="java.lang.Object"/>
-                    <Column editable="true" title="Status" type="java.lang.Object"/>
+                    <Column editable="false" title="Time Limit" type="java.lang.Object"/>
+                    <Column editable="false" title="Password" type="java.lang.Object"/>
+                    <Column editable="false" title="Status" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="200" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -196,6 +194,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblExamMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -215,58 +216,46 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="lbQBank" alignment="1" pref="285" max="32767" attributes="0"/>
-                          <Component id="sclQBank" alignment="1" pref="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="btnViewQBank" min="-2" pref="250" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="btnUpdQBank" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnDelQBank" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnAddQBank" min="-2" pref="155" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="15" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="lbNumOfItems" min="-2" pref="103" max="-2" attributes="0"/>
-                                          <Component id="lbExamDscrptn" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbPassword" min="-2" pref="103" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="spnNumOfItems" min="-2" pref="70" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="lbTimeLimit" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="spnHr" min="-2" pref="40" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="lbHr" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="spnMin" min="-2" pref="40" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="lbMin" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="tfPassword" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
-                                          <Component id="tfExamDscrptn" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="btnViewQBank" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="lbPassword" alignment="1" min="-2" pref="103" max="-2" attributes="0"/>
+                                  <Component id="lbExamDscrptn" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbNumOfItems" alignment="1" min="-2" pref="103" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnUpdExam" max="32767" attributes="0"/>
-                                  <Component id="btnAddExam" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnDelExam" alignment="0" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="spnNumOfItems" min="-2" pref="70" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lbTimeLimit" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="spnHr" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lbHr" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="spnMin" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lbMin" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="tfPassword" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
+                                  <Component id="tfExamDscrptn" alignment="0" min="-2" pref="268" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="lbLog" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="rbClose" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="rbOpen" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="btnUpdExam" max="32767" attributes="0"/>
+                          <Component id="btnAddExam" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnDelExam" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnViewAttempt" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -276,127 +265,85 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lbQBank" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbLog" min="-2" pref="14" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="tfExamDscrptn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnAddExam" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnUpdExam" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnDelExam" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="spnNumOfItems" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbTimeLimit" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="spnHr" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbHr" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="spnMin" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbMin" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tfPassword" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnViewQBank" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="btnViewQBank" min="-2" pref="124" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lbExamDscrptn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnAddQBank" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="lbNumOfItems" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="lbPassword" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="btnUpdQBank" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                                              <Component id="btnDelQBank" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btnViewAttempt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                      <Component id="rbOpen" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rbClose" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="sclQBank" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tfExamDscrptn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbExamDscrptn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnAddExam" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="spnNumOfItems" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbTimeLimit" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="spnHr" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbHr" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="spnMin" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbMin" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbNumOfItems" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnUpdExam" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tfPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnDelExam" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="lbQBank">
+            <Component class="javax.swing.JButton" name="btnViewQBank">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="13" style="1"/>
+                  <Font name="Tahoma" size="24" style="0"/>
                 </Property>
-                <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Question Bank"/>
+                <Property name="text" type="java.lang.String" value="View Question Bank"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewQBankActionPerformed"/>
+              </Events>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="sclQBank">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTable" name="tblQBank">
-                  <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="1" rowCount="0">
-                        <Column editable="true" title="Exam Description" type="java.lang.Object"/>
-                      </Table>
-                    </Property>
-                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                      <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                      </TableColumnModel>
-                    </Property>
-                    <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                      <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JLabel" name="lbLog">
-            </Component>
-            <Component class="javax.swing.JButton" name="btnAddQBank">
+            <Component class="javax.swing.JRadioButton" name="rbOpen">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Add Question Bank"/>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="btnGrpStatus"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Close"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnUpdQBank">
+            <Component class="javax.swing.JRadioButton" name="rbClose">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Update Question Bank"/>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="btnGrpStatus"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Open"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnDelQBank">
+            <Component class="javax.swing.JButton" name="btnViewAttempt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Delete Question Bank"/>
+                <Property name="text" type="java.lang.String" value="View Attempt"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewAttemptActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lbExamDscrptn">
               <Properties>
@@ -461,21 +408,27 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Exam"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddExamActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnUpdExam">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Update Exam"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdExamActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnDelExam">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete Exam"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnViewQBank">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="View Question Bank"/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDelExamActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

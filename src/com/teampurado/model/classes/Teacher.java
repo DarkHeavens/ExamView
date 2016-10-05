@@ -16,6 +16,10 @@ public class Teacher {
         this.password = password;
     }
 
+    public Teacher(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
@@ -32,11 +36,11 @@ public class Teacher {
         this.name = name;
     }
 
-    public String getPass() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPass(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

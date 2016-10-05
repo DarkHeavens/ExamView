@@ -116,7 +116,8 @@ public class LoginFrame extends javax.swing.JFrame {
             if(!db.getRs().first()) {
                 JOptionPane.showMessageDialog(this, "Invalid username/password!", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                this.dispose();
+                db.close();
+                this.dispose(); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);

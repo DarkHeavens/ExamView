@@ -6,8 +6,8 @@ package com.teampurado.model.classes;
  */
 public class Attempt {
 
-    private String studentID;
     private byte examID;
+    private String studentID;
     private boolean status;
 
     public Attempt(String studentID, byte examID, boolean status) {

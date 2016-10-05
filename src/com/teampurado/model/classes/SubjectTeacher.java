@@ -6,16 +6,21 @@ package com.teampurado.model.classes;
  */
 public class SubjectTeacher {
     
+    private byte subjTchrID;
     private String teacherID;
     private String subjectCode;
-    private String day;
-    private String time;
 
-    public SubjectTeacher(String teacherID, String subjectCode, String day, String time) {
+    public SubjectTeacher(String teacherID, String subjectCode) {
         this.teacherID = teacherID;
         this.subjectCode = subjectCode;
-        this.day = day;
-        this.time = time;
+    }
+
+    public byte getSubjTchrID() {
+        return subjTchrID;
+    }
+
+    public void setSubjTchrID(byte subjTchrID) {
+        this.subjTchrID = subjTchrID;
     }
 
     public String getTeacherID() {
@@ -32,22 +37,6 @@ public class SubjectTeacher {
 
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
     
 }

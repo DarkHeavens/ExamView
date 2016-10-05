@@ -9,15 +9,27 @@ public class Exam {
     private byte examID;
     private String teacherID;
     private String subjectCode;
+    private String description;
     private short numOfItems;
     private String timeLimit;
     private String password;
     private boolean status;
 
-    public Exam(byte examID, String teacherID, String subjectCode, short numOfItems, String timeLimit, String password, boolean status) {
+    public Exam(byte examID, String teacherID, String subjectCode, String description, short numOfItems, String timeLimit, String password, boolean status) {
         this.examID = examID;
         this.teacherID = teacherID;
         this.subjectCode = subjectCode;
+        this.description = description;
+        this.numOfItems = numOfItems;
+        this.timeLimit = timeLimit;
+        this.password = password;
+        this.status = status;
+    }
+
+    public Exam(String teacherID, String subjectCode, String description, short numOfItems, String timeLimit, String password, boolean status) {
+        this.teacherID = teacherID;
+        this.subjectCode = subjectCode;
+        this.description = description;
         this.numOfItems = numOfItems;
         this.timeLimit = timeLimit;
         this.password = password;
@@ -46,6 +58,14 @@ public class Exam {
 
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public short getNumOfItems() {

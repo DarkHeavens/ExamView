@@ -45,34 +45,33 @@ public class DBHelper {
                     " primary key(code))");
             
             execute("create table if not exists "+SUBJECT_TEACHER+
-                    " (teacherID char(10) not null,"+
+                    " (subjTchrID tinyint not null auto_increment,"+
+                    " teacherID char(10) not null,"+
                     " subjectCode varchar(20) not null,"+
-                    " day varchar(8) not null,"+
-                    " time varchar(60) not null,"+
-                    " primary key(teacherID,subjectCode),"+
+                    " primary key(subjTchrID),"+
                     " foreign key(teacherID) references examview.teacher(id) on delete cascade on update cascade,"+
                     " foreign key(subjectCode) references examview.subject(code) on delete cascade on update cascade)");
             
             execute("create table if not exists "+EXAM+
-                    " (examID tinyint null auto_increment,"+
+                    " (examID tinyint not null auto_increment,"+
                     " teacherID char(10) not null,"+
                     " subjectCode varchar(20) not null,"+
+                    " description text not null,"+
                     " numOfItems smallint,"+
                     " timeLimit char(8),"+
                     " password varchar(126),"+
                     " status boolean not null,"+
                     " primary key(examID),"+
-                    " foreign key(teacherID) references examview.teacher(id) on delete cascade on update cascade,"+
-                    " foreign key(subjectCode) references examview.subject(code) on delete cascade on update cascade)");
+                    " foreign key(teacherID) references examview.subject_teacher(teacherID) on delete cascade on update cascade,"+
+                    " foreign key(subjectCode) references examview.subject_teacher(subjectCode) on delete cascade on update cascade)");
             
             execute("create table if not exists "+QUESTION_BANK+
-                    " (QBankID int not null,"+
+                    " (QBankID int not null auto_increment,"+
                     " examID tinyint null,"+
                     " teacherID char(10) not null,"+
-                    " description text not null,"+
                     " primary key(QBankID),"+
-                    " foreign key(examID) references examview.exam(examID) on delete set null on update cascade,"+
-                    " foreign key(teacherID) references examview.teacher(id) on delete cascade on update cascade)");
+                    " foreign key(examID) references examview.exam(examID) on delete cascade on update cascade,"+
+                    " foreign key(teacherID) references examview.exam(teacherID) on delete cascade on update cascade)");
             
             execute("create table if not exists "+QUESTION+
                     " (questionNo smallint not null auto_increment,"+
@@ -91,20 +90,21 @@ public class DBHelper {
                     " primary key(id))");
             
             execute("create table if not exists "+ATTEMPT+
-                    " (studentID char(10) not null,"+
-                    " examID tinyint null,"+
+                    " (examID tinyint not null,"+
+                    " studentID char(10) not null,"+
                     " status boolean not null,"+
-                    " primary key(studentID),"+
-                    " foreign key(studentID) references examview.student(id) on delete cascade on update cascade,"+
-                    " foreign key(examID) references examview.exam(examID) on delete set null on update cascade)");
+                    " primary key(examID),"+
+                    " foreign key(examID) references examview.exam(examID) on delete cascade on update cascade,"+
+                    " foreign key(studentID) references examview.student(id) on delete cascade on update cascade)");
             
             execute("create table if not exists "+REPORT+
                     " (studentID char(10) not null,"+
                     " examID tinyint null,"+
+                    " myScore int"+
                     " totalScore int,"+
                     " primary key(studentID),"+
-                    " foreign key(examID) references examview.exam(examID) on delete set null on update cascade,"+
-                    " foreign key(studentID) references examview.student(id) on delete cascade on update cascade)");    
+                    " foreign key(examID) references examview.exam(examID) on delete set cascade on update cascade,"+
+                    " foreign key(studentID) references examview.exam(studentID) on delete cascade on update cascade)");    
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -121,10 +121,10 @@ public class DBHelper {
     }
     
     public void add(Exam obj) {
-        execute("insert into "+EXAM+" values ("+
-                obj.getExamID()+",'"+
+        execute("insert into "+EXAM+" (teacherID, subjectCode, description, numOfItems, timeLimit, password, status)values ('"+
                 obj.getTeacherID()+"','"+
-                obj.getSubjectCode()+"',"+
+                obj.getSubjectCode()+"','"+
+                obj.getDescription()+"',"+
                 obj.getNumOfItems()+",'"+
                 obj.getTimeLimit()+"','"+
                 obj.getPassword()+"',"+
@@ -142,17 +142,16 @@ public class DBHelper {
     }
     
     public void add(QuestionBank obj) {
-        execute("insert into "+QUESTION_BANK+" values ("+
-                obj.getQBankID()+","+
+        execute("insert into "+QUESTION_BANK+" (examID,teacherID) values ("+
                 obj.getExamID()+",'"+
-                obj.getTeacherID()+"','"+
-                obj.getDescription()+"')");
+                obj.getTeacherID()+"')");
     }
     
     public void add(Report obj) {
         execute("insert into "+REPORT+" values ("+
                 obj.getExamID()+",'"+
                 obj.getStudentID()+"',"+
+                obj.getMyScore()+","+
                 obj.getTotalScore()+")");
     }
     
@@ -163,11 +162,9 @@ public class DBHelper {
     }
     
     public void add(SubjectTeacher obj) {
-        execute("insert into "+SUBJECT_TEACHER+" values ('"+
+        execute("insert into "+SUBJECT_TEACHER+" (teacherID,subjectCode) values ('"+
                 obj.getTeacherID()+"','"+
-                obj.getSubjectCode()+"','"+
-                obj.getDay()+"','"+
-                obj.getTime()+"')");
+                obj.getSubjectCode()+"')");
     }
     
     public final boolean execute(String sql) {
