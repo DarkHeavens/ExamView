@@ -167,17 +167,17 @@ public class PasswordFrame extends javax.swing.JFrame {
     if(d == JOptionPane.YES_OPTION){
         new StudentFrame().dispose();
         this.dispose();
-        sf.dispose();
+        sf.setVisible(false);
         attempt = true;
         Attempt at = new Attempt(examID,stud.getId(),attempt);
             //new PasswordFrame(at).setVisible(true);
-           new ExamFrame(examID,at).setVisible(true);
+           new ExamFrame(examID,at,stud).setVisible(true);
         }
     }
     
     private byte examID;
     private Student stud;
-    DBHelper db = null;
+    private DBHelper db;
     int cbtn = JOptionPane.YES_NO_OPTION;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAttempt;

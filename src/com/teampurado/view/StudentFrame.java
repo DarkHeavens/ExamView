@@ -1,10 +1,13 @@
 package com.teampurado.view;
 
-import com.teampurado.model.classes.Student;
+import com.teampurado.model.classes.*;
 import com.teampurado.model.database.DBHelper;
+import com.teampurado.view.student.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,14 +21,13 @@ public class StudentFrame extends javax.swing.JFrame {
     public StudentFrame() {
         initComponents();    
     }
-    public StudentFrame(String id, String name, String pass){
+    public StudentFrame(Student stud){
         initComponents();
-        DBHelper dbh = new DBHelper();
-        this.id = id;
-        this.name = name;
-        this.pass = pass;
         
-        lbWelcome.setText("Welcome "+name);
+        db = new DBHelper();
+        this.stud = stud;
+        lbID.setText(stud.getId());
+        lbWelcome.setText("Welcome, "+stud.getName()+"!");
         
     }
 
@@ -38,13 +40,32 @@ public class StudentFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pStudentFrame = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lbWelcome = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lbID = new javax.swing.JLabel();
+        btnViewSub = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSubList = new javax.swing.JTable();
+        btnAttempt = new javax.swing.JButton();
+        lbError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        pStudentFrame.setBackground(new java.awt.Color(51, 51, 51));
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
         lbWelcome.setFont(new java.awt.Font("GosmickSans", 0, 18)); // NOI18N
-        lbWelcome.setText("Welcome: ");
+        lbWelcome.setForeground(new java.awt.Color(153, 153, 153));
+        lbWelcome.setText("Welcome ");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/teampurado/images/user.png"))); // NOI18N
+
+        lbID.setForeground(new java.awt.Color(153, 153, 153));
+        lbID.setText("ID");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -52,33 +73,208 @@ public class StudentFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbWelcome)
-                .addContainerGap(577, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbID, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbWelcome))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(lbID, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbWelcome)
-                .addContainerGap(265, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnViewSub.setBackground(new java.awt.Color(51, 51, 51));
+        btnViewSub.setForeground(new java.awt.Color(153, 153, 153));
+        btnViewSub.setText("View Subjects");
+        btnViewSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewSubActionPerformed(evt);
+            }
+        });
+
+        btnLogout.setBackground(new java.awt.Color(51, 51, 51));
+        btnLogout.setForeground(new java.awt.Color(153, 153, 153));
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        tblSubList.setBackground(new java.awt.Color(51, 51, 51));
+        tblSubList.setForeground(new java.awt.Color(204, 204, 204));
+        tblSubList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Exam Code", "Subject Code", "Teacher Name", "Number of Items", "Time Limit", "Description"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSubList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSubListMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSubList);
+        if (tblSubList.getColumnModel().getColumnCount() > 0) {
+            tblSubList.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tblSubList.getColumnModel().getColumn(1).setPreferredWidth(40);
+            tblSubList.getColumnModel().getColumn(2).setPreferredWidth(85);
+            tblSubList.getColumnModel().getColumn(3).setPreferredWidth(55);
+            tblSubList.getColumnModel().getColumn(4).setPreferredWidth(20);
+            tblSubList.getColumnModel().getColumn(5).setPreferredWidth(150);
+        }
+
+        btnAttempt.setBackground(new java.awt.Color(51, 51, 51));
+        btnAttempt.setForeground(new java.awt.Color(153, 153, 153));
+        btnAttempt.setText("Attempt");
+        btnAttempt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAttemptActionPerformed(evt);
+            }
+        });
+
+        lbError.setForeground(new java.awt.Color(255, 102, 102));
+        lbError.setText("Error");
+
+        javax.swing.GroupLayout pStudentFrameLayout = new javax.swing.GroupLayout(pStudentFrame);
+        pStudentFrame.setLayout(pStudentFrameLayout);
+        pStudentFrameLayout.setHorizontalGroup(
+            pStudentFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pStudentFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pStudentFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pStudentFrameLayout.createSequentialGroup()
+                        .addComponent(btnViewSub)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAttempt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbError)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogout)))
+                .addContainerGap())
+        );
+        pStudentFrameLayout.setVerticalGroup(
+            pStudentFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pStudentFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pStudentFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pStudentFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnViewSub)
+                        .addComponent(btnLogout)
+                        .addComponent(btnAttempt))
+                    .addComponent(lbError, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pStudentFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pStudentFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+int count=0;
+    private void btnViewSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewSubActionPerformed
+
+        DefaultTableModel dtm = (DefaultTableModel) tblSubList.getModel();
+        String sql;
+        sql = "select * from subject sb inner join exam ex on sb.code = ex.subjectCode "
+                + "inner join teacher tc on ex.teacherID = tc.id";
+
+        db.setRs(db.executeQuery(sql));
+        try {
+            if(count==0){
+            while(db.getRs().next()){
+                dtm.addRow(new Object[]{db.getRs().getByte("examID"),
+                    db.getRs().getString("subjectCode"),
+                    db.getRs().getString("name"),
+                    db.getRs().getInt("numOfItems"),
+                    db.getRs().getString("timeLimit"),
+                    db.getRs().getString("description")});
+            }count=1;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnViewSubActionPerformed
+
+    private void tblSubListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSubListMouseClicked
+        
+    }//GEN-LAST:event_tblSubListMouseClicked
+
+    private void btnAttemptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttemptActionPerformed
+        String sql;
+        DefaultTableModel dtm = (DefaultTableModel) tblSubList.getModel();
+        byte examID=0;
+        lbError.setText("");
+        try{
+            examID = Byte.parseByte((dtm.getValueAt(tblSubList.getSelectedRow(), 0)).toString());
+        }catch(ArrayIndexOutOfBoundsException e){
+            lbError.setText("Select Row.");
+        }
+
+        sql = "select * from exam ex "
+                + "where ex.examID = '"+examID+"' and ex.status = '1'";
+        db.setRs(db.executeQuery(sql));
+        try {
+            if(db.getRs().next()){
+                sql = "select * from exam ex "
+                        + "inner join attempt at on ex.examID = at.examID "
+                        + "where ex.examID = '"+examID+"' and at.status = 1";
+                db.setRs(db.executeQuery(sql));
+                if(db.getRs().next()){
+                    JOptionPane.showMessageDialog(this, "Exam already taken.");
+                }else{
+                    new PasswordFrame(examID, stud, this).setVisible(true);
+
+                }
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_btnAttemptActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        db.close();
+        this.dispose();
+        new LoginFrame().setVisible(true);
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,16 +310,25 @@ public class StudentFrame extends javax.swing.JFrame {
             }
         });
     }
-
     
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lbWelcome;
-    // End of variables declaration//GEN-END:variables
-    private Connection conn=null;
+    private Connection conn;
     private Statement stmt;
     private ResultSet rs;
-    private String id,name,pass;
+    private Student stud;
+    DBHelper db = null;
+    int cbtn = JOptionPane.YES_NO_OPTION;
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAttempt;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnViewSub;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbError;
+    private javax.swing.JLabel lbID;
+    private javax.swing.JLabel lbWelcome;
+    private javax.swing.JPanel pStudentFrame;
+    private javax.swing.JTable tblSubList;
+    // End of variables declaration//GEN-END:variables
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,9 +21,11 @@ public class ExamFrame extends javax.swing.JFrame {
     public ExamFrame() {
         initComponents();
     }
-TimerThread tt = null;
-    public ExamFrame(byte examID, Attempt at) {
+    public ExamFrame(byte examID, Attempt at, Student stud) {
         initComponents();
+        this.examID = examID;
+        this.at = at;
+        this.stud = stud;
         db = new DBHelper();
         String sql1 = "select * from exam "
                 + "where examID = "+examID;
@@ -48,6 +51,8 @@ TimerThread tt = null;
         db.add(at);
         list = new ArrayList();
         anslist = new ArrayList();
+        qslist = new ArrayList();
+        qsno = new ArrayList();
         String sql;
         sql = "select * from question_bank "
                 + "where QBankID = '" + examID + "' "
@@ -62,13 +67,11 @@ TimerThread tt = null;
                         db.getRs().getByte("numOfPoints"), db.getRs().getString("ask"), db.getRs().getString("answer"),
                         db.getRs().getString("choices"));
                 list.add(q);
-                anslist.add(null);
-                
-                if (c == 1) {
-                    
+                anslist.add("");
+                qslist.add(db.getRs().getString("ask"));
+                qsno.add(""+c);
+                if (c == 1){ 
                     questionChange(0);
-                    
-            
                 }
             }
 
@@ -76,6 +79,7 @@ TimerThread tt = null;
             
             
             lbCurrent.setText(1 + "/" + list.size());
+//            qsno.set(0, "1");
             tt.start();
         } catch (SQLException ex) {
             Logger.getLogger(ExamFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,7 +97,6 @@ TimerThread tt = null;
 
         grbtnChoices = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        lbAsk = new javax.swing.JLabel();
         rbtnChoice1 = new javax.swing.JRadioButton();
         rbtnChoice2 = new javax.swing.JRadioButton();
         rbtnChoice3 = new javax.swing.JRadioButton();
@@ -109,13 +112,13 @@ TimerThread tt = null;
         lbSec = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taAsk = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
-
-        lbAsk.setForeground(new java.awt.Color(153, 153, 153));
-        lbAsk.setText("What is your question?");
+        jPanel1.setAutoscrolls(true);
 
         rbtnChoice1.setBackground(new java.awt.Color(51, 51, 51));
         grbtnChoices.add(rbtnChoice1);
@@ -131,6 +134,11 @@ TimerThread tt = null;
         grbtnChoices.add(rbtnChoice3);
         rbtnChoice3.setForeground(new java.awt.Color(153, 153, 153));
         rbtnChoice3.setText("Choice 3");
+        rbtnChoice3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnChoice3ActionPerformed(evt);
+            }
+        });
 
         rbtnChoice4.setBackground(new java.awt.Color(51, 51, 51));
         grbtnChoices.add(rbtnChoice4);
@@ -190,6 +198,16 @@ TimerThread tt = null;
         jLabel6.setForeground(new java.awt.Color(153, 153, 153));
         jLabel6.setText(":");
 
+        jScrollPane1.setBorder(null);
+
+        taAsk.setEditable(false);
+        taAsk.setBackground(new java.awt.Color(51, 51, 51));
+        taAsk.setColumns(20);
+        taAsk.setForeground(new java.awt.Color(153, 153, 153));
+        taAsk.setRows(5);
+        taAsk.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)), "Question", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        jScrollPane1.setViewportView(taAsk);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -197,22 +215,22 @@ TimerThread tt = null;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbtnChoice1)
-                            .addComponent(rbtnChoice2))
-                        .addGap(107, 107, 107)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbtnChoice4)
-                            .addComponent(rbtnChoice3))
-                        .addGap(0, 252, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbAsk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rbtnChoice1)
+                                    .addComponent(rbtnChoice2)
+                                    .addComponent(rbtnChoice3)
+                                    .addComponent(rbtnChoice4)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 1, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGap(20, 20, 20)
                         .addComponent(btnFirst)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(5, 5, 5)
                         .addComponent(btnPrev)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNext)
@@ -220,50 +238,51 @@ TimerThread tt = null;
                         .addComponent(btnLast)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEnd))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addComponent(lbCurrent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lbHour)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addComponent(lbMin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addComponent(lbSec)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbCurrent)
                     .addComponent(lbHour)
-                    .addComponent(lbMin)
-                    .addComponent(lbSec)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(26, 26, 26)
-                .addComponent(lbAsk)
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtnChoice1)
-                    .addComponent(rbtnChoice3))
+                    .addComponent(lbMin)
+                    .addComponent(jLabel6)
+                    .addComponent(lbSec))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtnChoice2)
-                    .addComponent(rbtnChoice4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNext)
-                    .addComponent(btnEnd)
-                    .addComponent(btnPrev)
-                    .addComponent(btnLast)
-                    .addComponent(btnFirst))
-                .addGap(23, 23, 23))
+                .addComponent(rbtnChoice1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rbtnChoice2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rbtnChoice3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbtnChoice4)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnFirst)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNext)
+                        .addComponent(btnPrev)
+                        .addComponent(btnLast)
+                        .addComponent(btnEnd)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -274,7 +293,7 @@ TimerThread tt = null;
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -282,7 +301,11 @@ TimerThread tt = null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        anslist.set(countq,answer());
+        if(answer().equals(""))
+            anslist.set(countq, "");
+        QuestionBank q = list.get(countq);
+        anslist.set(countq, answer());
+//        qslist.set(countq, q.getAsk());
         if (countq > 0) {
             countq--;
         }
@@ -292,50 +315,75 @@ TimerThread tt = null;
         questionChange(countq);
         selectAnswer(ans);      
         lbCurrent.setText((countq + 1) + "/" + list.size());
+//        qsno.set(countq, ""+(countq+1));
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if(answer().equals(""))
+            anslist.set(countq, "");
+        QuestionBank q = list.get(countq);
         anslist.set(countq, answer());
+//        qslist.set(countq, q.getAsk());
+        System.out.println(""+qslist.get(countq));
+        if(countq == list.size()-1)
+            end(countq);
+        
         if (countq < list.size() - 1) {
             countq++;
         }
         questionChange(countq);
         selectAnswer(anslist.get(countq));     
         lbCurrent.setText((countq + 1) + "/" + list.size());  
-        
+//        qsno.set(countq, ""+(countq+1));
         
 //        String sql = "select * from question "
 //                + "where ask = '" + qs.getAsk() + "' and answer = '" + ans + "'";           
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        anslist.set(list.size()-1, answer());
+        if(answer().equals(""))
+            anslist.set(countq, "");
+        anslist.set(countq, answer());
         lbCurrent.setText(list.size() + "/" + list.size());
         
         countq = list.size()-1;
-        questionChange(list.size()-1);
-        selectAnswer(anslist.get(list.size()-1));
+        questionChange(countq);
+        selectAnswer(anslist.get(countq));
+        anslist.set(countq, answer());
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-        anslist.set(0, answer());
-        lbCurrent.setText(1 + "/" + list.size());        
+        if(answer().equals(""))
+            anslist.set(countq, "");
+        
+        anslist.set(countq, answer());
         
         countq = 0;
-        questionChange(0);
-        selectAnswer(anslist.get(0));
-        
+        questionChange(countq);
+        selectAnswer(anslist.get(countq));
+        lbCurrent.setText(1 + "/" + list.size());
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndActionPerformed
-
-            ReportFrame rf = new ReportFrame(anslist,at);
-            rf.setVisible(true);
-//            tt.interrupt();
-            this.dispose();
+        int c=0;
+        if(answer().equals(""))
+            anslist.set(countq, "");
+        anslist.set(countq, answer());
+        for(int i=0;i<anslist.size();i++){
+            if(anslist.get(i).equals("")) c++;
+                
+        }
+        if(c!=0){
+            int d = JOptionPane.showConfirmDialog(this, "There are "+c+" unanswered question.\nAre you sure you want to end it?","Alert!", JOptionPane.YES_NO_OPTION);
+            cbox(d);
+        }
         
         
     }//GEN-LAST:event_btnEndActionPerformed
+
+    private void rbtnChoice3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnChoice3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbtnChoice3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,6 +419,23 @@ TimerThread tt = null;
             }
         });
     }
+        public void end(int count){
+            int c=0;
+            System.out.println("Ans: "+anslist.size());
+            System.out.println("List: "+list.size());
+        for(int i=0;i<anslist.size();i++){
+            if(anslist.get(i).equals("")) c++;
+                
+        }
+        if(c!=0)
+            JOptionPane.showMessageDialog(this, "There are "+c+" unanswered question.");
+        else{
+        ReportFrame rf = new ReportFrame(qsno,qslist,anslist,at,stud);
+        rf.setVisible(true);
+//      tt.interrupt();
+        this.dispose();
+        }
+    }
     
     public void selectAnswer(String ans){
       
@@ -386,9 +451,10 @@ TimerThread tt = null;
     }
     
     public void questionChange(int count){
+        
         QuestionBank qs = list.get(count);
-        String[] split = qs.getChoices().split(",");
-        lbAsk.setText(qs.getAsk());
+        String[] split = qs.getChoices().split("\\|");
+        taAsk.setText(qs.getAsk());
         rbtnChoice1.setText(split[0]);
         rbtnChoice2.setText(split[1]);
         rbtnChoice3.setText(split[2]);
@@ -405,13 +471,23 @@ TimerThread tt = null;
         
     }
     
+    public void cbox(int d){
+        if(d == JOptionPane.YES_OPTION){
+            ReportFrame rf = new ReportFrame(qsno,qslist,anslist,at,stud);
+            rf.setVisible(true);
+//            tt.interrupt();
+            this.dispose();
+        }
+    }
     
+    private TimerThread tt;
+    private Student stud;
     private int countq = 0;
     private byte examID;
     private Attempt at;
-    DBHelper db = null;
+    private DBHelper db;
     ArrayList<QuestionBank> list;
-    ArrayList<String> anslist;
+    ArrayList<String> anslist,qslist,qsno;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnd;
     private javax.swing.JButton btnFirst;
@@ -422,7 +498,7 @@ TimerThread tt = null;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lbAsk;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbCurrent;
     private javax.swing.JLabel lbHour;
     private javax.swing.JLabel lbMin;
@@ -431,5 +507,6 @@ TimerThread tt = null;
     private javax.swing.JRadioButton rbtnChoice2;
     private javax.swing.JRadioButton rbtnChoice3;
     private javax.swing.JRadioButton rbtnChoice4;
+    private javax.swing.JTextArea taAsk;
     // End of variables declaration//GEN-END:variables
 }

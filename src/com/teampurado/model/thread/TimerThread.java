@@ -32,7 +32,6 @@ public class TimerThread extends Thread {
 
         try {
             do {
-                System.out.println(""+hr+":"+min+":"+sec);
                 h.setText("" + hr);
                 m.setText("" + min);
                 s.setText("" + sec);
