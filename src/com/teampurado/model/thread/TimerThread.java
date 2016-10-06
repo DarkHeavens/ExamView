@@ -15,7 +15,7 @@ public class TimerThread extends Thread {
     private final JLabel h;
     private final JLabel m;
     private final JLabel s;
-    private ExamFrame ef;
+    private final ExamFrame ef;
 
     public TimerThread(JLabel h, JLabel m, JLabel s, ExamFrame ef) {
         this.h = h;

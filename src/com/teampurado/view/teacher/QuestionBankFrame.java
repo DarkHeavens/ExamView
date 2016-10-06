@@ -37,6 +37,11 @@ public class QuestionBankFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        frInput = new javax.swing.JFrame();
+        pnlInput = new javax.swing.JPanel();
+        btnConfirm = new javax.swing.JButton();
+        sclInput = new javax.swing.JScrollPane();
+        taInput = new javax.swing.JTextArea();
         pnlQuestionBank = new javax.swing.JPanel();
         lbAvatar = new javax.swing.JLabel();
         lbUsername = new javax.swing.JLabel();
@@ -51,7 +56,63 @@ public class QuestionBankFrame extends javax.swing.JFrame {
         lbTimeLimit = new javax.swing.JLabel();
         btnRefresh = new javax.swing.JButton();
         btnCommit = new javax.swing.JButton();
-        btnCopyTo = new javax.swing.JButton();
+
+        frInput.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        frInput.setTitle("Input Text");
+        frInput.setAlwaysOnTop(true);
+        frInput.setLocationByPlatform(true);
+        frInput.setSize(new java.awt.Dimension(485, 385));
+
+        btnConfirm.setText("Confirm");
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
+
+        sclInput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        sclInput.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        taInput.setColumns(20);
+        taInput.setLineWrap(true);
+        taInput.setRows(5);
+        taInput.setWrapStyleWord(true);
+        sclInput.setViewportView(taInput);
+
+        javax.swing.GroupLayout pnlInputLayout = new javax.swing.GroupLayout(pnlInput);
+        pnlInput.setLayout(pnlInputLayout);
+        pnlInputLayout.setHorizontalGroup(
+            pnlInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnConfirm)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlInputLayout.createSequentialGroup()
+                .addComponent(sclInput, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        pnlInputLayout.setVerticalGroup(
+            pnlInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnConfirm)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sclInput, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout frInputLayout = new javax.swing.GroupLayout(frInput.getContentPane());
+        frInput.getContentPane().setLayout(frInputLayout);
+        frInputLayout.setHorizontalGroup(
+            frInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        frInputLayout.setVerticalGroup(
+            frInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        frInput.getAccessibleContext().setAccessibleParent(this);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ExamView");
@@ -86,7 +147,7 @@ public class QuestionBankFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Question No", "Number of Points", "Ask", "Answer", "Choices (choice1, choice 2, ..., choice n)"
+                "Question No", "Number of Points", "Ask", "Answer", "Choices (choice1|choice 2|...|choice n)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -98,8 +159,14 @@ public class QuestionBankFrame extends javax.swing.JFrame {
             }
         });
         tblQBank.setColumnSelectionAllowed(true);
+        tblQBank.getTableHeader().setReorderingAllowed(false);
+        tblQBank.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblQBankMouseClicked(evt);
+            }
+        });
         sclQBank.setViewportView(tblQBank);
-        tblQBank.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tblQBank.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblQBank.getColumnModel().getColumnCount() > 0) {
             tblQBank.getColumnModel().getColumn(0).setResizable(false);
             tblQBank.getColumnModel().getColumn(0).setPreferredWidth(1);
@@ -133,13 +200,6 @@ public class QuestionBankFrame extends javax.swing.JFrame {
             }
         });
 
-        btnCopyTo.setText("Copy To...");
-        btnCopyTo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCopyToActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout pnlQuestionBankLayout = new javax.swing.GroupLayout(pnlQuestionBank);
         pnlQuestionBank.setLayout(pnlQuestionBankLayout);
         pnlQuestionBankLayout.setHorizontalGroup(
@@ -158,9 +218,7 @@ public class QuestionBankFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCommit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCopyTo))
+                        .addComponent(btnCommit))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlQuestionBankLayout.createSequentialGroup()
                         .addComponent(lbSubject)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -194,13 +252,11 @@ public class QuestionBankFrame extends javax.swing.JFrame {
                 .addComponent(sclQBank, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlQuestionBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnlQuestionBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnCopyTo)
-                        .addComponent(btnCommit)
-                        .addComponent(btnRefresh))
+                    .addComponent(btnCommit)
                     .addComponent(lbQuestionNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbHPS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbTimeLimit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbTimeLimit)
+                    .addComponent(btnRefresh))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -227,7 +283,7 @@ public class QuestionBankFrame extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel) tblQBank.getModel();
         int hps = 0;
             
-        //db.execute("delete from "+DBHelper.QUESTION_BANK+" where QBankID = "+e.getExamID());
+        db.execute("delete from "+DBHelper.QUESTION_BANK+" where QBankID = "+e.getExamID());
         for(int i = 0; i < tblQBank.getRowCount(); i++) {
             QuestionBank qb = new QuestionBank(e.getExamID(),(short)(i+1),Byte.parseByte(dtm.getValueAt(i, 1).toString()),dtm.getValueAt(i, 2).toString(), dtm.getValueAt(i, 3).toString(), dtm.getValueAt(i, 4).toString());
             db.execute("update "+DBHelper.QUESTION_BANK+" set numOfPoints = "+qb.getNumOfPoints()+", ask = '"+qb.getAsk()+"', answer = '"+qb.getAnswer()+"', choices = '"+qb.getChoices()+"' where QBankID = "+e.getExamID()+" and questionNo = "+qb.getQuestionNo());
@@ -235,10 +291,6 @@ public class QuestionBankFrame extends javax.swing.JFrame {
         }
         lbHPS.setText(hps+"");
     }//GEN-LAST:event_btnCommitActionPerformed
-
-    private void btnCopyToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopyToActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCopyToActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         LoginFrame login = new LoginFrame();
@@ -251,6 +303,20 @@ public class QuestionBankFrame extends javax.swing.JFrame {
         evf.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void tblQBankMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQBankMouseClicked
+        if(tblQBank.getSelectedColumn() >= 2) {
+            frInput.setVisible(true);
+            taInput.setText(tblQBank.getValueAt(tblQBank.getSelectedRow(),tblQBank.getSelectedColumn()).toString());
+            this.setEnabled(false);
+        }
+    }//GEN-LAST:event_tblQBankMouseClicked
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        tblQBank.setValueAt(taInput.getText(), tblQBank.getSelectedRow(),tblQBank.getSelectedColumn());
+        frInput.setVisible(false);
+        this.setEnabled(true);
+    }//GEN-LAST:event_btnConfirmActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,8 +359,7 @@ public class QuestionBankFrame extends javax.swing.JFrame {
             db.setRs(db.executeQuery("select * from "+DBHelper.QUESTION_BANK+" where QBankID = "+e.getExamID()));
             while(db.getRs().next()) {
                 QuestionBank nth = new QuestionBank(e.getExamID(), db.getRs().getShort("questionNo"),db.getRs().getByte("numOfPoints"),db.getRs().getString("ask"),db.getRs().getString("answer"),db.getRs().getString("choices"));
-                dtm.addRow(new Object[]{nth.getQuestionNo(),nth.getNumOfPoints(),nth.getAnswer(),nth.getChoices()});
-                db.add(nth);
+                dtm.addRow(new Object[]{nth.getQuestionNo(),nth.getNumOfPoints(),nth.getAsk(),nth.getAnswer(),nth.getChoices()});
                 hps += nth.getNumOfPoints();
                 i++;
             }
@@ -303,7 +368,7 @@ public class QuestionBankFrame extends javax.swing.JFrame {
         }
         
         while(i < e.getNumOfItems()) {
-            dtm.addRow(new Object[]{i+1,0,"",""});
+            dtm.addRow(new Object[]{i+1,1,"","",""});
             db.add(new QuestionBank(e.getExamID(),(short)(i+1),Byte.parseByte(dtm.getValueAt(i, 1).toString()),"","",""));
             i++;
         }
@@ -316,9 +381,10 @@ public class QuestionBankFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCommit;
-    private javax.swing.JButton btnCopyTo;
+    private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JFrame frInput;
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbExamDscrptn;
     private javax.swing.JLabel lbHPS;
@@ -326,8 +392,11 @@ public class QuestionBankFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lbSubject;
     private javax.swing.JLabel lbTimeLimit;
     private javax.swing.JLabel lbUsername;
+    private javax.swing.JPanel pnlInput;
     private javax.swing.JPanel pnlQuestionBank;
+    private javax.swing.JScrollPane sclInput;
     private javax.swing.JScrollPane sclQBank;
+    private javax.swing.JTextArea taInput;
     private javax.swing.JTable tblQBank;
     // End of variables declaration//GEN-END:variables
 }

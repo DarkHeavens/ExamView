@@ -92,6 +92,7 @@ public class AttemptViewFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblReport.getTableHeader().setReorderingAllowed(false);
         sclReport.setViewportView(tblReport);
         if (tblReport.getColumnModel().getColumnCount() > 0) {
             tblReport.getColumnModel().getColumn(0).setResizable(false);

@@ -17,6 +17,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         db = new DBHelper();
+        db.init();
     }
 
     @SuppressWarnings("unchecked")

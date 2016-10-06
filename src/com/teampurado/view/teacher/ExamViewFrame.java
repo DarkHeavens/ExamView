@@ -128,6 +128,7 @@ public class ExamViewFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblExam.getTableHeader().setReorderingAllowed(false);
         tblExam.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblExamMouseClicked(evt);
@@ -260,14 +261,13 @@ public class ExamViewFrame extends javax.swing.JFrame {
             .addGroup(pnlExam_QBankLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlExam_QBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnViewQBank, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlExam_QBankLayout.createSequentialGroup()
-                        .addComponent(btnViewQBank, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlExam_QBankLayout.createSequentialGroup()
-                        .addGroup(pnlExam_QBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnViewAttempt)
+                        .addGroup(pnlExam_QBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlExam_QBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(rbOpen)
-                                .addComponent(rbClose)))
+                                .addComponent(rbClose))
+                            .addComponent(btnViewAttempt))
                         .addGap(17, 17, 17)
                         .addGroup(pnlExam_QBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfExamDscrptn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

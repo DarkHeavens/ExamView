@@ -103,6 +103,7 @@ public class TeacherFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblSubject.getTableHeader().setReorderingAllowed(false);
         tblSubject.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSubjectMouseClicked(evt);
@@ -112,7 +113,6 @@ public class TeacherFrame extends javax.swing.JFrame {
         if (tblSubject.getColumnModel().getColumnCount() > 0) {
             tblSubject.getColumnModel().getColumn(0).setPreferredWidth(1);
             tblSubject.getColumnModel().getColumn(1).setPreferredWidth(225);
-            tblSubject.getColumnModel().getColumn(1).setHeaderValue("Description");
         }
 
         lbSubjCode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
