@@ -1,7 +1,6 @@
 package com.teampurado.view.teacher;
 
 import com.teampurado.model.classes.Exam;
-import com.teampurado.model.classes.Question;
 import com.teampurado.model.classes.QuestionBank;
 import com.teampurado.model.database.DBHelper;
 import com.teampurado.view.LoginFrame;
@@ -20,15 +19,14 @@ public class QuestionBankFrame extends javax.swing.JFrame {
         initComponents();
     }
     
-    public QuestionBankFrame(Exam e, QuestionBank qb, String subj, ExamViewFrame evf) {
+    public QuestionBankFrame(Exam e, ExamViewFrame evf) {
         initComponents();
         db = new DBHelper();
         this.e = e;
-        this.qb = qb;
         this.evf = evf;
         
-        lbUsername.setText(qb.getTeacherID());
-        lbSubject.setText(subj);
+        lbUsername.setText(e.getTeacherID());
+        lbSubject.setText(e.getSubjectCode());
         lbExamDscrptn.setText(e.getDescription());
         lbQuestionNo.setText(e.getNumOfItems()+"");
         lbTimeLimit.setText(e.getTimeLimit());
@@ -228,12 +226,12 @@ public class QuestionBankFrame extends javax.swing.JFrame {
     private void btnCommitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCommitActionPerformed
         DefaultTableModel dtm = (DefaultTableModel) tblQBank.getModel();
         int hps = 0;
-        
-        db.execute("delete from "+DBHelper.QUESTION+" where QBankID = "+qb.getQBankID());
+            
+        //db.execute("delete from "+DBHelper.QUESTION_BANK+" where QBankID = "+e.getExamID());
         for(int i = 0; i < tblQBank.getRowCount(); i++) {
-            Question q = new Question((short)i,qb.getQBankID(),Byte.parseByte(dtm.getValueAt(i, 1).toString()),dtm.getValueAt(i, 2).toString(), dtm.getValueAt(i, 3).toString(), dtm.getValueAt(i, 4).toString());
-            db.add(q);
-            hps += q.getNumOfPoints();
+            QuestionBank qb = new QuestionBank(e.getExamID(),(short)(i+1),Byte.parseByte(dtm.getValueAt(i, 1).toString()),dtm.getValueAt(i, 2).toString(), dtm.getValueAt(i, 3).toString(), dtm.getValueAt(i, 4).toString());
+            db.execute("update "+DBHelper.QUESTION_BANK+" set numOfPoints = "+qb.getNumOfPoints()+", ask = '"+qb.getAsk()+"', answer = '"+qb.getAnswer()+"', choices = '"+qb.getChoices()+"' where QBankID = "+e.getExamID()+" and questionNo = "+qb.getQuestionNo());
+            hps += qb.getNumOfPoints();    
         }
         lbHPS.setText(hps+"");
     }//GEN-LAST:event_btnCommitActionPerformed
@@ -288,27 +286,31 @@ public class QuestionBankFrame extends javax.swing.JFrame {
         
         for(i = 0; i < dtm.getRowCount();i++){
             dtm.removeRow(i);
+            db.execute("delete from "+DBHelper.QUESTION_BANK+" where QBankID = "+e.getExamID()+" and questionNo = "+(i+1));
         }
         
         try {
-            db.setRs(db.executeQuery("select * from "+DBHelper.QUESTION+" where QBankID = "+qb.getQBankID()));
+            db.setRs(db.executeQuery("select * from "+DBHelper.QUESTION_BANK+" where QBankID = "+e.getExamID()));
             while(db.getRs().next()) {
-                Question nth = new Question(db.getRs().getShort("questionNo"),db.getRs().getInt("QBankID"),db.getRs().getByte("numOfPoints"),db.getRs().getString("ask"),db.getRs().getString("answer"),db.getRs().getString("choices"));
+                QuestionBank nth = new QuestionBank(e.getExamID(), db.getRs().getShort("questionNo"),db.getRs().getByte("numOfPoints"),db.getRs().getString("ask"),db.getRs().getString("answer"),db.getRs().getString("choices"));
                 dtm.addRow(new Object[]{nth.getQuestionNo(),nth.getNumOfPoints(),nth.getAnswer(),nth.getChoices()});
+                db.add(nth);
                 hps += nth.getNumOfPoints();
+                i++;
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuestionBankFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         while(i < e.getNumOfItems()) {
-            dtm.addRow(new Object[]{i,"","",""});
+            dtm.addRow(new Object[]{i+1,0,"",""});
+            db.add(new QuestionBank(e.getExamID(),(short)(i+1),Byte.parseByte(dtm.getValueAt(i, 1).toString()),"","",""));
+            i++;
         }
         lbHPS.setText(hps+"");
     }
     
     Exam e;
-    QuestionBank qb;
     ExamViewFrame evf;
     DBHelper db;
     // Variables declaration - do not modify//GEN-BEGIN:variables

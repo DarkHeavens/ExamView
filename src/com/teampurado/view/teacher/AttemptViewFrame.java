@@ -1,7 +1,6 @@
 package com.teampurado.view.teacher;
 
-import com.teampurado.model.classes.Subject;
-import com.teampurado.model.classes.Teacher;
+import com.teampurado.model.classes.Exam;
 import com.teampurado.model.classes.Report;
 import com.teampurado.model.database.DBHelper;
 import com.teampurado.view.LoginFrame;
@@ -20,21 +19,19 @@ public class AttemptViewFrame extends javax.swing.JFrame {
         initComponents();
     }
     
-    public AttemptViewFrame(Subject subj, Teacher tchr, byte examID, ExamViewFrame evf) {
+    public AttemptViewFrame(Exam e, ExamViewFrame evf) {
         initComponents();
         db = new DBHelper();
-        this.subj = subj;
-        this.tchr = tchr;
         this.evf = evf;
-        lbUsername.setText(tchr.getId());
-        lbSubject.setText(subj.getCode());
+        lbUsername.setText(e.getTeacherID());
+        lbSubject.setText(e.getSubjectCode());
         
-        db.setRs(db.executeQuery("select * from "+DBHelper.REPORT+" inner join "+DBHelper.STUDENT+" on studentID = id where examID = "+examID));
+        db.setRs(db.executeQuery("select * from "+DBHelper.REPORT+" inner join "+DBHelper.STUDENT+" on studentID = id where examID = "+e.getExamID()));
         try {
             DefaultTableModel dtm = (DefaultTableModel) tblReport.getModel();
             while(db.getRs().next()){
                 Report nth = new Report(db.getRs().getByte("examID"), db.getRs().getString("studentID"), db.getRs().getInt("myScore"), db.getRs().getInt("totalScore"));
-                dtm.addRow(new Object[]{db.getRs().getString("name"), nth.getMyScore(), String.format(".2f",(nth.getMyScore()/nth.getTotalScore()))});
+                dtm.addRow(new Object[]{db.getRs().getString("name"), nth.getMyScore(), String.format("%.2f",((float) nth.getMyScore()/nth.getTotalScore() * 100))+"%"});
             }
         } catch (SQLException ex) {
             Logger.getLogger(AttemptViewFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -165,7 +162,7 @@ public class AttemptViewFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        evf.setEnabled(true);
+        evf.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -204,8 +201,6 @@ public class AttemptViewFrame extends javax.swing.JFrame {
         });
     }
     
-    Subject subj;
-    Teacher tchr;
     DBHelper db;
     ExamViewFrame evf;
     // Variables declaration - do not modify//GEN-BEGIN:variables

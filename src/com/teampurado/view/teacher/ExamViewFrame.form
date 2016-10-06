@@ -325,6 +325,7 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="btnGrpStatus"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Close"/>
               </Properties>
             </Component>
@@ -387,7 +388,7 @@
             <Component class="javax.swing.JSpinner" name="spnMin">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                  <SpinnerModel initial="1" maximum="59" minimum="1" numberType="java.lang.Byte" stepSize="1" type="number"/>
+                  <SpinnerModel initial="1" maximum="59" minimum="0" numberType="java.lang.Byte" stepSize="1" type="number"/>
                 </Property>
               </Properties>
             </Component>

@@ -1,7 +1,6 @@
 package com.teampurado.view.teacher;
 
 import com.teampurado.model.classes.Exam;
-import com.teampurado.model.classes.QuestionBank;
 import com.teampurado.model.classes.Subject;
 import com.teampurado.model.classes.Teacher;
 import com.teampurado.model.database.DBHelper;
@@ -31,7 +30,6 @@ public class ExamViewFrame extends javax.swing.JFrame {
         this.tchr = tchr;
         this.tf = tf;
         list = new ArrayList();
-        qbank = new ArrayList();
         lbUsername.setText(tchr.getId());
         lbSubject.setText(subj.getCode());
         select = false;
@@ -39,8 +37,8 @@ public class ExamViewFrame extends javax.swing.JFrame {
         try {
             DefaultTableModel dtm = (DefaultTableModel) tblExam.getModel();
             db.setRs(db.executeQuery("select * from "+DBHelper.EXAM+
-                    " as e inner join "+DBHelper.QUESTION_BANK+" as q on q.teacherID = e.teacherID "+
-                    " where subjectCode = '"+subj.getCode()+"' and teacherID = '"+tchr.getId()+"')"));
+                    " where teacherID = "+tchr.getId()+
+                    " and subjectCode = '"+subj.getCode()+"'"));
             while(db.getRs().next()) {
                 Exam nth = new Exam(db.getRs().getByte("examID"),db.getRs().getString("teacherID"),db.getRs().getString("subjectCode"),db.getRs().getString("description"),db.getRs().getShort("numOfItems"),db.getRs().getString("timeLimit"),db.getRs().getString("password"),db.getRs().getBoolean("status"));
                 dtm.addRow(new Object[]{db.getRs().getString("Description"),
@@ -156,6 +154,7 @@ public class ExamViewFrame extends javax.swing.JFrame {
         });
 
         btnGrpStatus.add(rbOpen);
+        rbOpen.setSelected(true);
         rbOpen.setText("Close");
 
         btnGrpStatus.add(rbClose);
@@ -184,7 +183,7 @@ public class ExamViewFrame extends javax.swing.JFrame {
 
         lbHr.setText("h");
 
-        spnMin.setModel(new javax.swing.SpinnerNumberModel(Byte.valueOf((byte)1), Byte.valueOf((byte)1), Byte.valueOf((byte)59), Byte.valueOf((byte)1)));
+        spnMin.setModel(new javax.swing.SpinnerNumberModel(Byte.valueOf((byte)1), Byte.valueOf((byte)0), Byte.valueOf((byte)59), Byte.valueOf((byte)1)));
 
         lbMin.setText("min");
 
@@ -367,8 +366,8 @@ public class ExamViewFrame extends javax.swing.JFrame {
             Exam nth = list.get(tblExam.getSelectedRow());
             tfExamDscrptn.setText(nth.getDescription());
             spnNumOfItems.setValue(nth.getNumOfItems());
-            spnHr.setValue(Byte.parseByte(nth.getTimeLimit()));
-            spnMin.setValue(Byte.parseByte(nth.getTimeLimit().substring(3)));
+            spnHr.setValue(extractTime(nth.getTimeLimit().substring(0,2)));
+            spnMin.setValue(extractTime(nth.getTimeLimit().substring(3,5)));
             tfPassword.setText(nth.getPassword());
             if(nth.isStatus()) {
                 rbOpen.setSelected(true);
@@ -376,6 +375,7 @@ public class ExamViewFrame extends javax.swing.JFrame {
                 rbClose.setSelected(true);
             }
             
+            btnAddExam.setEnabled(false);
             btnUpdExam.setEnabled(true);
             btnDelExam.setEnabled(true);
             btnViewAttempt.setEnabled(true);
@@ -392,27 +392,23 @@ public class ExamViewFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnViewAttemptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAttemptActionPerformed
-        AttemptViewFrame avf = new AttemptViewFrame(subj, tchr, list.get(tblExam.getSelectedRow()).getExamID(), this);
-        this.setEnabled(false);
+        AttemptViewFrame avf = new AttemptViewFrame(list.get(tblExam.getSelectedRow()), this);
+        this.setVisible(false);
         avf.setVisible(true);
     }//GEN-LAST:event_btnViewAttemptActionPerformed
 
     private void btnViewQBankActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewQBankActionPerformed
         Exam nth = list.get(tblExam.getSelectedRow());
         
-        for(QuestionBank n : qbank) {
-            if(n.getExamID() == nth.getExamID()) {
-                QuestionBankFrame qbf = new QuestionBankFrame(nth,n,subj.getCode(),this);
-                this.setVisible(false);
-                qbf.setVisible(true);
-                break;
-            }
-        }
+        QuestionBankFrame qbf = new QuestionBankFrame(nth,this);
+        qbf.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnViewQBankActionPerformed
 
     private void btnAddExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddExamActionPerformed
         try {
-            if("".equals(tfExamDscrptn.getText()) || "".equals(tfPassword.getText())) {
+            if("".equals(tfExamDscrptn.getText()) || "".equals(tfPassword.getText()) || 
+                    spnHr.getValue().toString().equals("0") && spnMin.getValue().toString().equals("0")) {
                 throw new Exception();
             }
             
@@ -421,11 +417,9 @@ public class ExamViewFrame extends javax.swing.JFrame {
                     formatTime(Byte.parseByte(spnHr.getValue().toString()),Byte.parseByte(spnMin.getValue().toString())), 
                     tfPassword.getText(), rbOpen.isSelected());
             DefaultTableModel dtm = (DefaultTableModel) tblExam.getModel();
-            dtm.addRow(new Object[]{nth.getDescription(),nth.getNumOfItems(),nth.getTimeLimit(),nth.getPassword(),nth.isStatus()});
+            dtm.addRow(new Object[]{nth.getDescription(),nth.getNumOfItems(),nth.getTimeLimit(),nth.getPassword(),(nth.isStatus()?"Open":"Close")});
             db.add(nth);
             list.add(nth);
-            db.setRs(db.executeQuery("select QBankID from "+DBHelper.QUESTION_BANK+" where examID = "+nth.getExamID()));
-            db.add(new QuestionBank(db.getRs().getInt("QBankID"), nth.getExamID(), tchr.getId()));
             
             clrForm();
         } catch(Exception ex) {
@@ -435,7 +429,8 @@ public class ExamViewFrame extends javax.swing.JFrame {
 
     private void btnUpdExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdExamActionPerformed
         try {
-            if("".equals(tfExamDscrptn.getText()) || "".equals(tfPassword.getText())) {
+            if("".equals(tfExamDscrptn.getText()) || "".equals(tfPassword.getText()) || 
+                    spnHr.getValue().toString().equals("0") && spnMin.getValue().toString().equals("0")) {
                 throw new Exception();
             }
             
@@ -444,16 +439,17 @@ public class ExamViewFrame extends javax.swing.JFrame {
                     formatTime(Byte.parseByte(spnHr.getValue().toString()),Byte.parseByte(spnMin.getValue().toString())), 
                     tfPassword.getText(), rbOpen.isSelected());
             DefaultTableModel dtm = (DefaultTableModel) tblExam.getModel();
+            list.set(tblExam.getSelectedRow(), nth);
             dtm.setValueAt(nth.getDescription(), tblExam.getSelectedRow(), 0);
             dtm.setValueAt(nth.getNumOfItems(), tblExam.getSelectedRow(), 1);
             dtm.setValueAt(nth.getTimeLimit(), tblExam.getSelectedRow(), 2);
             dtm.setValueAt(nth.getPassword(), tblExam.getSelectedRow(), 3);
-            dtm.setValueAt(nth.isStatus(), tblExam.getSelectedRow(), 4);
-            list.set(tblExam.getSelectedRow(), nth);
+            dtm.setValueAt((nth.isStatus()?"Open":"Close"), tblExam.getSelectedRow(), 4);
             db.execute("update "+DBHelper.EXAM+" set description = '"+nth.getDescription()+
-                    "', numOfItems = "+nth.getNumOfItems()+", timeLimit = "+nth.getTimeLimit()+
-                    ", password = '"+nth.getPassword()+"', status = "+nth.isStatus()+
+                    "', numOfItems = "+nth.getNumOfItems()+", timeLimit = '"+nth.getTimeLimit()+
+                    "', password = '"+nth.getPassword()+"', status = "+nth.isStatus()+
                     " where examID = "+nth.getExamID());
+            
             clrForm();
         } catch(Exception e) {
             JOptionPane.showMessageDialog(this,"Could not be updated!","ERROR",JOptionPane.ERROR_MESSAGE);
@@ -509,23 +505,23 @@ public class ExamViewFrame extends javax.swing.JFrame {
         }
         time += (h + ":");
         if(min < 10) {
-            time += min;
+            time += "0";
         }
         time += (min + ":00");
         
         return time;
     }
     
+    Byte extractTime(String s) {
+        return Byte.parseByte(s);
+    }
+    
     void clrForm() {
         tblExam.clearSelection();
         tfExamDscrptn.setText("");
         tfPassword.setText("");
-        spnNumOfItems.setEnabled(false);
-        spnHr.setEnabled(false);
-        spnMin.setEnabled(false);
-        tfPassword.setEnabled(false);
-        rbOpen.setEnabled(false);
-        rbClose.setEnabled(false);
+        spnHr.setValue(0);
+        spnMin.setValue(1);
         btnViewQBank.setEnabled(false);
         btnAddExam.setEnabled(true);
         btnUpdExam.setEnabled(false);
@@ -541,7 +537,6 @@ public class ExamViewFrame extends javax.swing.JFrame {
     TeacherFrame tf;
     boolean select;
     ArrayList<Exam> list;
-    ArrayList<QuestionBank> qbank;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddExam;
     private javax.swing.JButton btnBack;

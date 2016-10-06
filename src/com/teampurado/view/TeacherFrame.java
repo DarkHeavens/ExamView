@@ -145,6 +145,7 @@ public class TeacherFrame extends javax.swing.JFrame {
         });
 
         btnExamView.setText("View Exam");
+        btnExamView.setEnabled(false);
         btnExamView.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExamViewActionPerformed(evt);
@@ -248,6 +249,7 @@ public class TeacherFrame extends javax.swing.JFrame {
             btnAddSubj.setEnabled(false);
             btnUpdSubj.setEnabled(true);
             btnDelSubj.setEnabled(true);
+            btnExamView.setEnabled(true);
             select = true;
         } else {
             clrSubjForm();
@@ -303,8 +305,8 @@ public class TeacherFrame extends javax.swing.JFrame {
             
             DefaultTableModel dtm = (DefaultTableModel) tblSubject.getModel();
             db.execute("delete from "+DBHelper.SUBJECT+" where code = '"+tfSubjCode.getText()+"'");
-            dtm.removeRow(tblSubject.getSelectedRow());
             list.remove(tblSubject.getSelectedRow());
+            dtm.removeRow(tblSubject.getSelectedRow());
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(this,"Could not be deleted!","ERROR",JOptionPane.ERROR_MESSAGE);
         }
@@ -351,6 +353,7 @@ public class TeacherFrame extends javax.swing.JFrame {
         btnAddSubj.setEnabled(true);
         btnUpdSubj.setEnabled(false);
         btnDelSubj.setEnabled(false);
+        btnExamView.setEnabled(false);
         select = false;
     }
     

@@ -1,5 +1,13 @@
 package com.teampurado.view.student;
 
+import com.teampurado.model.classes.*;
+import com.teampurado.model.database.DBHelper;
+import com.teampurado.model.thread.TimerThread;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ProfessorSci
@@ -12,6 +20,67 @@ public class ExamFrame extends javax.swing.JFrame {
     public ExamFrame() {
         initComponents();
     }
+TimerThread tt = null;
+    public ExamFrame(byte examID, Attempt at) {
+        initComponents();
+        db = new DBHelper();
+        String sql1 = "select * from exam "
+                + "where examID = "+examID;
+        
+        
+        db.setRs(db.executeQuery(sql1));
+        try {
+            if(db.getRs().next()){
+                String[] split = db.getRs().getString("timeLimit").split(":");
+                lbHour.setText(split[0]);
+                lbMin.setText(split[1]);
+                lbSec.setText(split[2]);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ExamFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        tt = new TimerThread(lbHour, lbMin, lbSec, this);
+        
+        
+        
+        this.at = at;
+        db.add(at);
+        list = new ArrayList();
+        anslist = new ArrayList();
+        String sql;
+        sql = "select * from question_bank "
+                + "where QBankID = '" + examID + "' "
+                + "order by rand()";
+        // sql = "select * from exam where examID ex = (select * from question_bank qb where ex.examID = qb.examID)";
+        db.setRs(db.executeQuery(sql));
+        try {
+            int c = 0;
+            while (db.getRs().next()) {
+                c++;
+                QuestionBank q = new QuestionBank(db.getRs().getByte("QBankID"), db.getRs().getShort("questionNo"),
+                        db.getRs().getByte("numOfPoints"), db.getRs().getString("ask"), db.getRs().getString("answer"),
+                        db.getRs().getString("choices"));
+                list.add(q);
+                anslist.add(null);
+                
+                if (c == 1) {
+                    
+                    questionChange(0);
+                    
+            
+                }
+            }
+
+           
+            
+            
+            lbCurrent.setText(1 + "/" + list.size());
+            tt.start();
+        } catch (SQLException ex) {
+            Logger.getLogger(ExamFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -22,21 +91,251 @@ public class ExamFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grbtnChoices = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        lbAsk = new javax.swing.JLabel();
+        rbtnChoice1 = new javax.swing.JRadioButton();
+        rbtnChoice2 = new javax.swing.JRadioButton();
+        rbtnChoice3 = new javax.swing.JRadioButton();
+        rbtnChoice4 = new javax.swing.JRadioButton();
+        btnPrev = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
+        btnEnd = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
+        btnFirst = new javax.swing.JButton();
+        lbCurrent = new javax.swing.JLabel();
+        lbHour = new javax.swing.JLabel();
+        lbMin = new javax.swing.JLabel();
+        lbSec = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        lbAsk.setForeground(new java.awt.Color(153, 153, 153));
+        lbAsk.setText("What is your question?");
+
+        rbtnChoice1.setBackground(new java.awt.Color(51, 51, 51));
+        grbtnChoices.add(rbtnChoice1);
+        rbtnChoice1.setForeground(new java.awt.Color(153, 153, 153));
+        rbtnChoice1.setText("Choice 1");
+
+        rbtnChoice2.setBackground(new java.awt.Color(51, 51, 51));
+        grbtnChoices.add(rbtnChoice2);
+        rbtnChoice2.setForeground(new java.awt.Color(153, 153, 153));
+        rbtnChoice2.setText("Choice 2");
+
+        rbtnChoice3.setBackground(new java.awt.Color(51, 51, 51));
+        grbtnChoices.add(rbtnChoice3);
+        rbtnChoice3.setForeground(new java.awt.Color(153, 153, 153));
+        rbtnChoice3.setText("Choice 3");
+
+        rbtnChoice4.setBackground(new java.awt.Color(51, 51, 51));
+        grbtnChoices.add(rbtnChoice4);
+        rbtnChoice4.setForeground(new java.awt.Color(153, 153, 153));
+        rbtnChoice4.setText("Choice 4");
+
+        btnPrev.setText("<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
+
+        btnNext.setText(">");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+
+        btnEnd.setText("End");
+        btnEnd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEndActionPerformed(evt);
+            }
+        });
+
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+
+        lbCurrent.setForeground(new java.awt.Color(153, 153, 153));
+        lbCurrent.setText("Current Question");
+
+        lbHour.setForeground(new java.awt.Color(153, 153, 153));
+        lbHour.setText("0");
+
+        lbMin.setForeground(new java.awt.Color(153, 153, 153));
+        lbMin.setText("0");
+
+        lbSec.setForeground(new java.awt.Color(153, 153, 153));
+        lbSec.setText("0");
+
+        jLabel5.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel5.setText(":");
+
+        jLabel6.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel6.setText(":");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbtnChoice1)
+                            .addComponent(rbtnChoice2))
+                        .addGap(107, 107, 107)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbtnChoice4)
+                            .addComponent(rbtnChoice3))
+                        .addGap(0, 252, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbAsk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(btnFirst)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPrev)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNext)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLast)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEnd))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbCurrent)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbHour)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbMin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbSec)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbCurrent)
+                    .addComponent(lbHour)
+                    .addComponent(lbMin)
+                    .addComponent(lbSec)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(26, 26, 26)
+                .addComponent(lbAsk)
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbtnChoice1)
+                    .addComponent(rbtnChoice3))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbtnChoice2)
+                    .addComponent(rbtnChoice4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNext)
+                    .addComponent(btnEnd)
+                    .addComponent(btnPrev)
+                    .addComponent(btnLast)
+                    .addComponent(btnFirst))
+                .addGap(23, 23, 23))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        anslist.set(countq,answer());
+        if (countq > 0) {
+            countq--;
+        }
+        
+        String ans = anslist.get(countq);
+        
+        questionChange(countq);
+        selectAnswer(ans);      
+        lbCurrent.setText((countq + 1) + "/" + list.size());
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        anslist.set(countq, answer());
+        if (countq < list.size() - 1) {
+            countq++;
+        }
+        questionChange(countq);
+        selectAnswer(anslist.get(countq));     
+        lbCurrent.setText((countq + 1) + "/" + list.size());  
+        
+        
+//        String sql = "select * from question "
+//                + "where ask = '" + qs.getAsk() + "' and answer = '" + ans + "'";           
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        anslist.set(list.size()-1, answer());
+        lbCurrent.setText(list.size() + "/" + list.size());
+        
+        countq = list.size()-1;
+        questionChange(list.size()-1);
+        selectAnswer(anslist.get(list.size()-1));
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        anslist.set(0, answer());
+        lbCurrent.setText(1 + "/" + list.size());        
+        
+        countq = 0;
+        questionChange(0);
+        selectAnswer(anslist.get(0));
+        
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndActionPerformed
+
+            ReportFrame rf = new ReportFrame(anslist,at);
+            rf.setVisible(true);
+//            tt.interrupt();
+            this.dispose();
+        
+        
+    }//GEN-LAST:event_btnEndActionPerformed
 
     /**
      * @param args the command line arguments
@@ -72,7 +371,65 @@ public class ExamFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    public void selectAnswer(String ans){
+      
+        if(rbtnChoice1.getText().equals(ans))
+            rbtnChoice1.setSelected(true);
+        else if(rbtnChoice2.getText().equals(ans))
+            rbtnChoice2.setSelected(true);
+        else if(rbtnChoice3.getText().equals(ans))
+            rbtnChoice3.setSelected(true);
+        else if(rbtnChoice4.getText().equals(ans))
+            rbtnChoice4.setSelected(true);
+        else grbtnChoices.clearSelection();
+    }
+    
+    public void questionChange(int count){
+        QuestionBank qs = list.get(count);
+        String[] split = qs.getChoices().split(",");
+        lbAsk.setText(qs.getAsk());
+        rbtnChoice1.setText(split[0]);
+        rbtnChoice2.setText(split[1]);
+        rbtnChoice3.setText(split[2]);
+        rbtnChoice4.setText(split[3]);
+    }
+    
+    public String answer(){
+        String ans = rbtnChoice1.isSelected() ? rbtnChoice1.getText():
+        rbtnChoice2.isSelected() ? rbtnChoice2.getText():
+        rbtnChoice3.isSelected() ? rbtnChoice3.getText():
+        rbtnChoice4.isSelected() ? rbtnChoice4.getText():"";
+        
+        return ans;
+        
+    }
+    
+    
+    private int countq = 0;
+    private byte examID;
+    private Attempt at;
+    DBHelper db = null;
+    ArrayList<QuestionBank> list;
+    ArrayList<String> anslist;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEnd;
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrev;
+    private javax.swing.ButtonGroup grbtnChoices;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbAsk;
+    private javax.swing.JLabel lbCurrent;
+    private javax.swing.JLabel lbHour;
+    private javax.swing.JLabel lbMin;
+    private javax.swing.JLabel lbSec;
+    private javax.swing.JRadioButton rbtnChoice1;
+    private javax.swing.JRadioButton rbtnChoice2;
+    private javax.swing.JRadioButton rbtnChoice3;
+    private javax.swing.JRadioButton rbtnChoice4;
     // End of variables declaration//GEN-END:variables
 }

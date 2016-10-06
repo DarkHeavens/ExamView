@@ -6,43 +6,76 @@ package com.teampurado.model.classes;
  */
 public class QuestionBank {
     
-    private int QBankID;
-    private byte examID;
-    private String teacherID;
+    private byte QBankID;
+    private short questionNo;
+    private byte numOfPoints;
+    private String ask;
+    private String answer;
+    private String choices;
 
-    public QuestionBank(int QBankID, byte examID, String teacherID) {
+    public QuestionBank(byte QBankID, short questionNo, byte numOfPoints, String ask, String answer, String choices) {
         this.QBankID = QBankID;
-        this.examID = examID;
-        this.teacherID = teacherID;
+        this.questionNo = questionNo;
+        this.numOfPoints = numOfPoints;
+        this.ask = ask;
+        this.answer = answer;
+        this.choices = choices;
     }
 
-    public QuestionBank(byte examID, String teacherID) {
-        this.examID = examID;
-        this.teacherID = teacherID;
+    public QuestionBank(short questionNo, byte numOfPoints, String ask, String answer, String choices) {
+        this.questionNo = questionNo;
+        this.numOfPoints = numOfPoints;
+        this.ask = ask;
+        this.answer = answer;
+        this.choices = choices;
     }
 
-    public int getQBankID() {
+    public byte getQBankID() {
         return QBankID;
     }
 
-    public void setQBankID(int QBankID) {
+    public void setQBankID(byte QBankID) {
         this.QBankID = QBankID;
     }
 
-    public byte getExamID() {
-        return examID;
+    public short getQuestionNo() {
+        return questionNo;
     }
 
-    public void setExamID(byte examID) {
-        this.examID = examID;
+    public void setQuestionNo(short questionNo) {
+        this.questionNo = questionNo;
     }
 
-    public String getTeacherID() {
-        return teacherID;
+    public byte getNumOfPoints() {
+        return numOfPoints;
     }
 
-    public void setTeacherID(String teacherID) {
-        this.teacherID = teacherID;
+    public void setNumOfPoints(byte numOfPoints) {
+        this.numOfPoints = numOfPoints;
     }
-    
+
+    public String getAsk() {
+        return ask;
+    }
+
+    public void setAsk(String ask) {
+        this.ask = ask;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getChoices() {
+        return choices;
+    }
+
+    public void setChoices(String choices) {
+        this.choices = choices;
+    }
+  
 }

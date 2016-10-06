@@ -22,7 +22,6 @@ public class DBHelper {
             ATTEMPT = "attempt",
             EXAM = "exam",
             QUESTION_BANK = "question_bank",
-            QUESTION = "question",
             REPORT = "report";
     
     private ResultSet rs;
@@ -66,22 +65,14 @@ public class DBHelper {
                     " foreign key(subjectCode) references examview.subject_teacher(subjectCode) on delete cascade on update cascade)");
             
             execute("create table if not exists "+QUESTION_BANK+
-                    " (QBankID int not null auto_increment,"+
-                    " examID tinyint null,"+
-                    " teacherID char(10) not null,"+
-                    " primary key(QBankID),"+
-                    " foreign key(examID) references examview.exam(examID) on delete cascade on update cascade,"+
-                    " foreign key(teacherID) references examview.exam(teacherID) on delete cascade on update cascade)");
-            
-            execute("create table if not exists "+QUESTION+
-                    " (questionNo smallint not null auto_increment,"+
-                    " QBankID int not null,"+
+                    " (QBankID tinyint,"+
+                    " questionNo int,"+
                     " numOfPoints tinyint,"+
                     " ask text,"+
                     " answer text,"+
                     " choices text,"+
                     " primary key(questionNo),"+
-                    " foreign key(QBankID) references examview.question_bank(QBankID) on delete cascade on update cascade)");
+                    " foreign key(QBankID) references examview.exam(examID))");
             
             execute("create table if not exists "+STUDENT+
                     " (id char(10) not null,"+
@@ -99,12 +90,12 @@ public class DBHelper {
             
             execute("create table if not exists "+REPORT+
                     " (studentID char(10) not null,"+
-                    " examID tinyint null,"+
-                    " myScore int"+
+                    " examID tinyint not null,"+
+                    " myScore int,"+
                     " totalScore int,"+
                     " primary key(studentID),"+
-                    " foreign key(examID) references examview.exam(examID) on delete set cascade on update cascade,"+
-                    " foreign key(studentID) references examview.exam(studentID) on delete cascade on update cascade)");    
+                    " foreign key(examID) references examview.exam(examID) on delete cascade on update cascade,"+
+                    " foreign key(studentID) references examview.attempt(studentID) on delete cascade on update cascade)");    
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBHelper.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -114,9 +105,9 @@ public class DBHelper {
     }
     
     public void add(Attempt obj) {
-        execute("insert into "+ATTEMPT+" values ('"+
+        execute("insert into "+ATTEMPT+" values ("+
+                obj.getExamID()+",'"+
                 obj.getStudentID()+"',"+
-                obj.getExamID()+","+
                 obj.isStatus()+")");
     }
     
@@ -131,21 +122,16 @@ public class DBHelper {
                 obj.isStatus()+")");
     }
     
-    public void add(Question obj) {
-        execute("insert into "+QUESTION+" values ("+
-                obj.getQuestionNo()+","+
+    public void add(QuestionBank obj) {
+        execute("insert into "+QUESTION_BANK+" values ("+
                 obj.getQBankID()+","+
+                obj.getQuestionNo()+","+
                 obj.getNumOfPoints()+",'"+
                 obj.getAsk()+"','"+
                 obj.getAnswer()+"','"+
                 obj.getChoices()+"')");
     }
     
-    public void add(QuestionBank obj) {
-        execute("insert into "+QUESTION_BANK+" (examID,teacherID) values ("+
-                obj.getExamID()+",'"+
-                obj.getTeacherID()+"')");
-    }
     
     public void add(Report obj) {
         execute("insert into "+REPORT+" values ("+

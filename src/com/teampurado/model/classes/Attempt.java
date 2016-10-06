@@ -10,7 +10,7 @@ public class Attempt {
     private String studentID;
     private boolean status;
 
-    public Attempt(String studentID, byte examID, boolean status) {
+    public Attempt(byte examID, String studentID, boolean status) {
         this.studentID = studentID;
         this.examID = examID;
         this.status = status;
